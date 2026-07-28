@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sovatela — download</title>
+  <meta name="description" content="Sovatela — a private, EU-sovereign desktop client for GLM-5.2, hosted in Europe on Scaleway." />
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --border: #e4e6eb;
+      --accent: #5a37f0;
+      --accent-2: #6b4bff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #17181c;
+        --card: #1f2126;
+        --text: #ededed;
+        --muted: #b4b9c2;
+        --border: #2c2f36;
+        --accent: #7c5cff;
+        --accent-2: #8b6bff;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 64px 24px 80px; }
+    header { text-align: center; margin-bottom: 48px; }
+    .mark {
+      width: 72px; height: 72px; margin: 0 auto 20px;
+      display: grid; place-items: center;
+      border-radius: 20px;
+      background: linear-gradient(150deg, var(--accent-2), var(--accent));
+      box-shadow: 0 8px 30px color-mix(in srgb, var(--accent) 40%, transparent);
+    }
+    .mark svg { width: 38px; height: 38px; color: #fff; }
+    h1 { font-size: 34px; margin: 0 0 8px; letter-spacing: -0.02em; }
+    .tagline { color: var(--muted); font-size: 17px; margin: 0 auto; max-width: 30em; }
+    .tagline strong { color: var(--text); font-weight: 600; }
+
+    .downloads { display: flex; flex-direction: column; gap: 14px; }
+    .dl {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 18px 20px;
+      text-decoration: none; color: inherit;
+      transition: border-color .15s ease, transform .15s ease;
+    }
+    .dl:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .dl-os { flex: 0 0 auto; width: 40px; height: 40px; color: var(--muted); }
+    .dl-os svg { width: 100%; height: 100%; }
+    .dl-body { flex: 1 1 auto; min-width: 0; }
+    .dl-title { font-weight: 600; font-size: 16px; }
+    .dl-meta { color: var(--muted); font-size: 13px; margin-top: 2px; }
+    .dl-cta {
+      flex: 0 0 auto; font-weight: 600; font-size: 14px; color: #fff;
+      background: var(--accent); border-radius: 999px; padding: 8px 16px;
+      white-space: nowrap;
+    }
+    .secondary { text-align: center; margin-top: 16px; font-size: 14px; }
+    .secondary a { color: var(--accent-2); }
+
+    details.sums { margin-top: 40px; border-top: 1px solid var(--border); padding-top: 24px; }
+    details.sums summary { cursor: pointer; font-weight: 600; font-size: 14px; color: var(--muted); }
+    .sums-note { color: var(--muted); font-size: 13px; margin: 10px 0 14px; }
+    .sums table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    .sums td { padding: 8px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .sums td.file { white-space: nowrap; padding-right: 16px; }
+    .sums code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; color: var(--muted); }
+
+    footer { margin-top: 48px; text-align: center; color: var(--muted); font-size: 13px; line-height: 1.7; }
+    footer a { color: var(--accent-2); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="mark" aria-hidden="true">
+        <!-- keyhole in a speech bubble -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7A8.38 8.38 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z" fill="rgba(255,255,255,0.14)"/>
+          <circle cx="12.5" cy="10" r="1.8" />
+          <path d="M12.5 11.6 L11.7 15 h1.6 z" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+      <h1>Sovatela</h1>
+      <p class="tagline">A private, EU-sovereign desktop client for <strong>GLM-5.2</strong> — hosted in Europe on Scaleway. Your keys stay on your device.</p>
+    </header>
+
+    <main class="downloads">
+      <!-- macOS Apple Silicon -->
+      <a class="dl" href="/downloads/Sovatela_0.9.0_aarch64.dmg" download>
+        <span class="dl-os"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.365 1.43c0 1.14-.417 2.2-1.11 2.99-.84.95-2.2 1.68-3.32 1.6-.14-1.08.42-2.24 1.06-2.97.75-.86 2.13-1.5 3.37-1.62zM20.5 17.03c-.6 1.38-.89 2-1.66 3.22-1.08 1.7-2.6 3.82-4.48 3.83-1.67.02-2.1-1.09-4.37-1.08-2.27.01-2.74 1.1-4.41 1.08-1.88-.02-3.32-1.93-4.4-3.63C-1.34 16.9-.66 9.9 3.2 8.3c1.35-.6 2.53-.23 3.6-.23 1.13 0 2.29-.42 3.63-.42 1.28 0 2.6.4 3.68 1.1-3.23 1.77-2.7 6.38.39 8.28z"/></svg></span>
+        <span class="dl-body">
+          <span class="dl-title">macOS — Apple Silicon</span>
+          <span class="dl-meta">.dmg · M1/M2/M3 and later</span>
+        </span>
+        <span class="dl-cta">Download</span>
+      </a>
+
+      <!-- macOS Intel -->
+      <a class="dl" href="/downloads/Sovatela_0.9.0_x64.dmg" download>
+        <span class="dl-os"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.365 1.43c0 1.14-.417 2.2-1.11 2.99-.84.95-2.2 1.68-3.32 1.6-.14-1.08.42-2.24 1.06-2.97.75-.86 2.13-1.5 3.37-1.62zM20.5 17.03c-.6 1.38-.89 2-1.66 3.22-1.08 1.7-2.6 3.82-4.48 3.83-1.67.02-2.1-1.09-4.37-1.08-2.27.01-2.74 1.1-4.41 1.08-1.88-.02-3.32-1.93-4.4-3.63C-1.34 16.9-.66 9.9 3.2 8.3c1.35-.6 2.53-.23 3.6-.23 1.13 0 2.29-.42 3.63-.42 1.28 0 2.6.4 3.68 1.1-3.23 1.77-2.7 6.38.39 8.28z"/></svg></span>
+        <span class="dl-body">
+          <span class="dl-title">macOS — Intel</span>
+          <span class="dl-meta">.dmg · pre-2020 Macs</span>
+        </span>
+        <span class="dl-cta">Download</span>
+      </a>
+
+      <!-- Windows -->
+      <a class="dl" href="/downloads/Sovatela_0.9.0_x64_en-US.msi" download>
+        <span class="dl-os"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.1 10.4 4v7.5H3zM10.4 12.5V20L3 18.9v-6.4zM11.6 3.83 21 2.5v9H11.6zM21 12.5v9l-9.4-1.33V12.5z"/></svg></span>
+        <span class="dl-body">
+          <span class="dl-title">Windows</span>
+          <span class="dl-meta">.msi installer · 64-bit</span>
+        </span>
+        <span class="dl-cta">Download</span>
+      </a>
+
+      <!-- Linux -->
+      <a class="dl" href="/downloads/Sovatela_0.9.0_amd64.AppImage" download>
+        <span class="dl-os"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-1.7 0-3 1.5-3 3.3 0 .9.1 1.7-.3 2.4-.5.9-1.5 1.6-2.2 2.9-.7 1.3-1.2 3-1.2 5.4 0 .8-.4 1.3-.8 1.9-.4.6-.7 1.2-.4 1.9.3.7 1.1.9 2 .9.6 0 1.1.2 1.7.4.6.2 1.2.5 2.1.5h.2c.9 0 1.5-.3 2.1-.5.6-.2 1.1-.4 1.7-.4.9 0 1.7-.2 2-.9.3-.7 0-1.3-.4-1.9-.4-.6-.8-1.1-.8-1.9 0-2.4-.5-4.1-1.2-5.4-.7-1.3-1.7-2-2.2-2.9-.4-.7-.3-1.5-.3-2.4C15 3.5 13.7 2 12 2z"/></svg></span>
+        <span class="dl-body">
+          <span class="dl-title">Linux</span>
+          <span class="dl-meta">.AppImage · 64-bit</span>
+        </span>
+        <span class="dl-cta">Download</span>
+      </a>
+    </main>
+
+    <p class="secondary">
+      Also available: <a href="/downloads/Sovatela_0.9.0_amd64.deb">Debian/Ubuntu .deb</a> ·
+      <a href="/downloads/">all files &amp; older versions →</a>
+    </p>
+
+    <details class="sums">
+      <summary>Verify your download (SHA-256)</summary>
+      <p class="sums-note">
+        After downloading, check the file's hash matches below. On macOS/Linux:
+        <code>shasum -a 256 &lt;file&gt;</code> · On Windows:
+        <code>certutil -hashfile &lt;file&gt; SHA256</code>.
+        The canonical list is also at <a href="/downloads/SHA256SUMS.txt">SHA256SUMS.txt</a>.
+      </p>
+      <table>
+        <tbody>
+          <tr><td class="file">macOS (Apple Silicon)</td><td><code>TODO — fill on release</code></td></tr>
+          <tr><td class="file">macOS (Intel)</td><td><code>TODO — fill on release</code></td></tr>
+          <tr><td class="file">Windows (.msi)</td><td><code>TODO — fill on release</code></td></tr>
+          <tr><td class="file">Linux (.AppImage)</td><td><code>TODO — fill on release</code></td></tr>
+        </tbody>
+      </table>
+    </details>
+
+    <footer>
+      <p>
+        Sovatela talks to <strong>GLM-5.2</strong>, Z.ai's open model hosted in France by Scaleway.
+        You bring your own Scaleway key; it never leaves your device.
+      </p>
+      <p>Version 0.9.0</p>
+    </footer>
+  </div>
+</body>
+</html>

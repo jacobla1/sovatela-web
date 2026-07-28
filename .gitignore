@@ -1,0 +1,8 @@
+.DS_Store
+
+# Installer binaries are built by the app's GitHub Actions release workflow,
+# attached to the GitHub Release, and copied straight onto the Pi — never
+# committed to git. Keep the folder (and the generated checksums) tracked.
+downloads/*
+!downloads/.gitkeep
+!downloads/SHA256SUMS.txt
