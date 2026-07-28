@@ -42,9 +42,12 @@ sudo nginx -t && sudo systemctl reload nginx
 Installers come from the app's GitHub Actions release (attached to the GitHub
 Release) — they are **not** committed here.
 
-1. Download the release assets (`.dmg` / `.msi` / `.AppImage` / `.deb`).
-2. Copy them into `/srv/apps/sovatela/downloads/`.
-3. Generate checksums: `cd downloads && sha256sum * > SHA256SUMS.txt`
-4. If filenames changed, update the `href`s and the SHA-256 cells in `index.html`.
+1. Download the release assets (`.dmg` / `.msi` / `.exe` / `.AppImage` / `.deb` / `.rpm`).
+2. Copy them into `/srv/apps/sovatela/downloads/` on the Pi.
+3. Checksums: `downloads/SHA256SUMS.txt` is **committed to this repo per release** (and
+   the inline cells in `index.html` are filled to match), so just `git pull` on the
+   Pi — no need to regenerate. If you ever do, exclude the updater artifact and the
+   sums file itself: `sha256sum Sovatela_* *.rpm > SHA256SUMS.txt`.
+4. If filenames change between releases, update the `href`s + SHA-256 cells in `index.html`.
 
 nginx `autoindex` lists whatever is in `downloads/`.
