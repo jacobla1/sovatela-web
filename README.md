@@ -53,11 +53,13 @@ cd ../sovatela-web && git add -A && git commit && git push
 scp /tmp/sovatela-release/Sovatela_1.1.1_* /tmp/sovatela-release/*.rpm rpi:~/
 ssh rpi 'sudo -u appuser mv ~/Sovatela_* /srv/apps/sovatela/downloads/'
 
-# 4. Pages to the Pi.
-ssh rpi 'sudo -u appuser git -C /srv/apps/sovatela pull --ff-only'
+# 4. Pages to the Pi — interactively; see "Working on the Pi" below for why.
+ssh rpi
+sudo -iu appuser
+cd /srv/apps/sovatela && git pull
 
 # 5. Verify on the Pi, against the bytes actually being served.
-ssh rpi 'cd /srv/apps/sovatela/downloads && sha256sum -c SHA256SUMS.txt'
+cd downloads && sha256sum -c SHA256SUMS.txt
 ```
 
 Keep steps 3 and 4 together. `SHA256SUMS.txt` arrives via the pull and the
@@ -77,11 +79,26 @@ file, `SHA256SUMS.txt` matches the page.
 
 ## Working on the Pi
 
-The tree is owned by `appuser`, so git from `jbl` needs
-`sudo -u appuser git -C /srv/apps/sovatela …` — otherwise git refuses with
+Log in as the owner and work interactively:
+
+```sh
+ssh rpi
+sudo -iu appuser
+cd /srv/apps/sovatela
+```
+
+Two reasons this is not a one-liner:
+
+**Ownership.** The tree belongs to `appuser`, so git run as `jbl` refuses with
 *"detected dubious ownership"*. Add a `safe.directory` exception only if you
-want `jbl` writing files nginx's owner cannot manage; running as the owner is
-the better habit.
+want `jbl` writing files nginx's owner cannot manage.
+
+**The key has a passphrase.** `appuser`'s GitHub key must be unlocked at the
+prompt, so a non-TTY `ssh rpi 'sudo -u appuser git … pull'` cannot work — ssh
+offers the key, cannot sign with it, and GitHub reports *"Permission denied
+(publickey)"*. That message reads like an unregistered key and will send you
+looking for a missing deploy key that was never needed. Deploys here are
+deliberately hands-on; there is no unattended pull.
 
 First-time clone:
 
