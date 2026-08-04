@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accessibility statement — Sovatela</title>
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --border: #e4e6eb;
+      --accent: #5a37f0;
+      --accent-2: #6b4bff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #17181c;
+        --card: #1f2126;
+        --text: #ededed;
+        --muted: #b4b9c2;
+        --border: #2c2f36;
+        --accent: #7c5cff;
+        --accent-2: #8b6bff;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.65;
+    }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 40px 24px 80px; }
+    .back { display: inline-block; margin-bottom: 28px; color: var(--accent-2); font-size: 14px; text-decoration: none; }
+    .back:hover { text-decoration: underline; }
+    h1 { font-size: 30px; margin: 0 0 20px; letter-spacing: -0.02em; }
+    h2 { font-size: 20px; margin: 40px 0 12px; letter-spacing: -0.01em; }
+    h3 { font-size: 16px; margin: 28px 0 10px; }
+    p, li { font-size: 15.5px; }
+    a { color: var(--accent-2); }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.9em;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 1px 5px;
+    }
+    pre {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      overflow-x: auto;
+    }
+    pre code { background: none; border: 0; padding: 0; }
+    blockquote {
+      margin: 20px 0;
+      padding: 2px 18px;
+      border-left: 3px solid var(--accent);
+      color: var(--muted);
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 14.5px; margin: 20px 0; display: block; overflow-x: auto; }
+    th, td { padding: 9px 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+    th { font-weight: 600; }
+    hr { border: 0; border-top: 1px solid var(--border); margin: 36px 0; }
+    footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; line-height: 1.7; }
+    footer a { color: var(--accent-2); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/">← Sovatela</a>
+    <h1>Accessibility statement</h1>
+<p>Applies to: Sovatela v1.1.1 · Last reviewed: 2026-08-04</p>
+<h2>Our position</h2>
+<p>We want Sovatela to be usable by everyone. It currently <strong>is not fully
+accessible</strong>, and this statement says where it falls short rather than claiming
+otherwise. The gaps below are real, were found by review of the source, and are
+tracked as work — not as acceptable.</p>
+<p><strong>Conformance status: partially conformant with WCAG 2.1 level AA.</strong> &quot;Partially
+conformant&quot; means some parts do not fully conform. We have not commissioned an
+independent audit; treat this as a self-assessment.</p>
+<h2>What works today</h2>
+<ul>
+<li><strong>Semantic HTML</strong> with a declared page language (<code>lang=&quot;en&quot;</code>).</li>
+<li><strong>Light and dark themes</strong>, following the system setting, with a selectable
+accent colour.</li>
+<li><strong>Visible focus indicators</strong> on interactive controls.</li>
+<li><strong>Labelled controls</strong> — icon-only buttons carry <code>aria-label</code>; toggles expose
+<code>aria-pressed</code>; decorative icons are <code>aria-hidden</code>.</li>
+<li><strong>Live regions</strong> announce streaming status changes.</li>
+<li><strong>Dialogs</strong> use <code>aria-modal</code> and close on <kbd>Esc</kbd>.</li>
+<li><strong>Alternative text</strong> on images, using the attached file&#39;s name.</li>
+<li><strong>Keyboard-operable status dot</strong> — reachable by <kbd>Tab</kbd>, activated with
+<kbd>Enter</kbd> or <kbd>Space</kbd>.</li>
+</ul>
+<h2>Known gaps</h2>
+<p>We consider these defects. They are listed with the standard they engage.</p>
+<table>
+<thead>
+<tr>
+<th>Gap</th>
+<th>Impact</th>
+<th>WCAG</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Font sizes are fixed in pixels</strong> (<code>--fs-base: 14px</code> and siblings), so OS and browser text scaling has no effect. Some labels are as small as 10px.</td>
+<td>Anyone who needs larger text cannot get it. This is our most serious gap.</td>
+<td>1.4.4 Resize Text (AA)</td>
+</tr>
+<tr>
+<td><strong>No reduced-motion support</strong> — no <code>prefers-reduced-motion</code> rules anywhere, including the pulsing status indicator.</td>
+<td>Animation cannot be disabled by users who need it off.</td>
+<td>2.3.3 (AAA), and good practice at AA</td>
+</tr>
+<tr>
+<td><strong>Sparse ARIA coverage</strong> — around 30 attributes across the whole interface. Panels, lists, and the history sidebar lack landmark roles and structural labelling.</td>
+<td>Screen-reader users get a flat, hard-to-navigate structure.</td>
+<td>1.3.1, 4.1.2</td>
+</tr>
+<tr>
+<td><strong>No keyboard shortcuts beyond <kbd>Enter</kbd> and <kbd>Esc</kbd></strong> — no way to start a new chat, focus the composer, open settings, or move between panels without a pointer.</td>
+<td>Keyboard-only users must tab through everything.</td>
+<td>2.1.1</td>
+</tr>
+<tr>
+<td><strong>Focus management on panel open/close is not explicitly handled</strong> — focus may not move into a dialog or return to the trigger.</td>
+<td>Disorientation for screen-reader and keyboard users.</td>
+<td>2.4.3</td>
+</tr>
+<tr>
+<td><strong>Colour contrast has not been formally measured</strong> against either theme.</td>
+<td>Unknown; likely acceptable for body text, uncertain for muted secondary text.</td>
+<td>1.4.3</td>
+</tr>
+<tr>
+<td><strong>No screen-reader testing</strong> has been performed with VoiceOver, NVDA, JAWS, or Orca.</td>
+<td>Real behaviour is unverified.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Streaming output announcement is untuned</strong> — a live region emitting a token stream can be overwhelming.</td>
+<td>Verbose, possibly unusable announcement during replies.</td>
+<td>4.1.3</td>
+</tr>
+</tbody></table>
+<h2>What we intend to do</h2>
+<p>In rough priority order, targeting the next feature release:</p>
+<ol>
+<li>Convert the type scale from <code>px</code> to <code>rem</code> so text scaling works, and raise
+the 10px minimum.</li>
+<li>Add <code>prefers-reduced-motion</code> handling across all animation.</li>
+<li>Add a keyboard shortcut set with an in-app reference, plus focus management
+on panel transitions.</li>
+<li>Add landmark roles and structural labelling; retune the live region to
+announce completion rather than every token.</li>
+<li>Measure contrast in both themes and correct failures.</li>
+<li>Test with at least one screen reader per platform.</li>
+</ol>
+<p>No date is promised, because this is a small project and a promised date would
+be a guess.</p>
+<h2>Compatibility</h2>
+<p>Sovatela is a desktop application rendering in a system webview (WebKit on
+macOS and Linux, WebView2 on Windows). Platform screen readers and system-level
+zoom generally apply, but per the gaps above, in-app text scaling does not
+respond to text-size settings.</p>
+<h2>Feedback</h2>
+<p>If you hit an accessibility barrier, tell us — it will be treated as a bug, not
+a request:</p>
+<p><strong><code>info@anaubi.com</code></strong></p>
+<p>Please include your assistive technology and version, your OS, and what you were
+trying to do. We aim to respond within 5 working days.</p>
+<p>If you&#39;re not satisfied with our response, say so plainly and tell us again — we
+would rather hear it twice than have you give up. Sovatela is published by one
+person, so there is no second-line process to escalate to internally.</p>
+<h2>Legal note</h2>
+<p>The European Accessibility Act applies to certain consumer software from 28 June
+2025. Whether it reaches this product is genuinely unsettled: Sovatela is
+published by an individual, free of charge, with no commercial activity — see
+the legal and compliance checklist.</p>
+<p>We have deliberately <strong>not</strong> named a national enforcement body to escalate to,
+because we are not confident which Danish authority would be the right one for a
+product of this kind, and sending someone to the wrong regulator wastes their
+time rather than helping. If applicability is confirmed, the correct body will
+be named here.</p>
+<p>None of that changes the substance: this statement is written to be useful, and
+the defects listed above are treated as defects, regardless of whether anyone is
+legally required to fix them.</p>
+
+    <footer>
+      <p>
+        <a href="/accessibility">Accessibility</a>
+      </p>
+      <p>
+        Published by <strong>Jacob Bergmann Larsen</strong> ·
+        <a href="mailto:info@anaubi.com">info@anaubi.com</a>
+      </p>
+    </footer>
+  </div>
+</body>
+</html>
