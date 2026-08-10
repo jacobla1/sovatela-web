@@ -76,7 +76,7 @@
   <div class="wrap">
     <a class="back" href="/">← Sovatela</a>
     <h1>Accessibility statement</h1>
-<p>Applies to: Sovatela v1.1.1 · Last reviewed: 2026-08-04</p>
+<p>Applies to: Sovatela v1.2.0 · Last reviewed: 2026-08-05</p>
 <h2>Our position</h2>
 <p>We want Sovatela to be usable by everyone. It currently <strong>is not fully
 accessible</strong>, and this statement says where it falls short rather than claiming
@@ -88,14 +88,22 @@ independent audit; treat this as a self-assessment.</p>
 <h2>What works today</h2>
 <ul>
 <li><strong>Semantic HTML</strong> with a declared page language (<code>lang=&quot;en&quot;</code>).</li>
-<li><strong>Light and dark themes</strong>, following the system setting, with a selectable
-accent colour.</li>
+<li><strong>Light and dark themes</strong>, following the system setting.</li>
+<li><strong>Adjustable text size</strong> — <em>Settings → Appearance → Text size</em>, up to 150%.
+A desktop app has no address bar to zoom with, and neither macOS nor Windows
+passes its text-size setting to an app like this one, so the app provides the
+control itself.</li>
+<li><strong>Reduced motion is respected.</strong> With the system setting on, animation and
+transitions stop. The two status dots that pulse to mean &quot;in progress&quot; become
+unfilled rings rather than simply freezing, so the state they carry survives.</li>
 <li><strong>Visible focus indicators</strong> on interactive controls.</li>
 <li><strong>Labelled controls</strong> — icon-only buttons carry <code>aria-label</code>; toggles expose
 <code>aria-pressed</code>; decorative icons are <code>aria-hidden</code>.</li>
 <li><strong>Live regions</strong> announce streaming status changes.</li>
 <li><strong>Dialogs</strong> use <code>aria-modal</code> and close on <kbd>Esc</kbd>.</li>
-<li><strong>Alternative text</strong> on images, using the attached file&#39;s name.</li>
+<li><strong>Alternative text</strong> on images: attachments use the file&#39;s name, and a
+generated picture is described by the prompt that produced it rather than
+by the words &quot;generated image&quot;.</li>
 <li><strong>Keyboard-operable status dot</strong> — reachable by <kbd>Tab</kbd>, activated with
 <kbd>Enter</kbd> or <kbd>Space</kbd>.</li>
 </ul>
@@ -110,14 +118,9 @@ accent colour.</li>
 </tr>
 </thead>
 <tbody><tr>
-<td><strong>Font sizes are fixed in pixels</strong> (<code>--fs-base: 14px</code> and siblings), so OS and browser text scaling has no effect. Some labels are as small as 10px.</td>
-<td>Anyone who needs larger text cannot get it. This is our most serious gap.</td>
+<td><strong>Text scales to 150%, not 200%</strong>, and spacing does not scale with it. The type ramp is now in <code>rem</code> and the app provides its own size control, but the criterion asks for 200%, and padding is still fixed so larger settings tighten the layout rather than growing it.</td>
+<td>Readers who need more than 150% are not served.</td>
 <td>1.4.4 Resize Text (AA)</td>
-</tr>
-<tr>
-<td><strong>No reduced-motion support</strong> — no <code>prefers-reduced-motion</code> rules anywhere, including the pulsing status indicator.</td>
-<td>Animation cannot be disabled by users who need it off.</td>
-<td>2.3.3 (AAA), and good practice at AA</td>
 </tr>
 <tr>
 <td><strong>Sparse ARIA coverage</strong> — around 30 attributes across the whole interface. Panels, lists, and the history sidebar lack landmark roles and structural labelling.</td>
@@ -151,18 +154,22 @@ accent colour.</li>
 </tr>
 </tbody></table>
 <h2>What we intend to do</h2>
-<p>In rough priority order, targeting the next feature release:</p>
+<p>In rough priority order:</p>
 <ol>
-<li>Convert the type scale from <code>px</code> to <code>rem</code> so text scaling works, and raise
-the 10px minimum.</li>
-<li>Add <code>prefers-reduced-motion</code> handling across all animation.</li>
 <li>Add a keyboard shortcut set with an in-app reference, plus focus management
 on panel transitions.</li>
 <li>Add landmark roles and structural labelling; retune the live region to
 announce completion rather than every token.</li>
+<li>Carry text scaling to 200%, and decide whether spacing should scale with it.
+The remaining obstacle is that most padding is written in fixed pixels
+rather than relative units.</li>
 <li>Measure contrast in both themes and correct failures.</li>
 <li>Test with at least one screen reader per platform.</li>
 </ol>
+<p>Done in 1.2.0: the type scale moved from <code>px</code> to <code>rem</code> with a text-size control
+to drive it, the 10px minimum was raised to 11px, and <code>prefers-reduced-motion</code>
+is now honoured throughout — including in scripted scrolling, which CSS alone
+cannot reach.</p>
 <p>No date is promised, because this is a small project and a promised date would
 be a guess.</p>
 <h2>Compatibility</h2>
