@@ -52,19 +52,20 @@
       border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border));
       border-radius: 14px;
       padding: 16px 18px;
-      margin: 0 0 32px;
+      margin: 24px 0 0;
       font-size: 14.5px;
       color: var(--muted);
     }
 
-    /* What happens after the download: account, key, paste, chat. Auto-fit
-       rather than fixed columns, so it reflows to fewer per row on a narrow
-       screen instead of scrolling sideways or crushing the text. */
+    /* Five steps from download to first answer, shown before the buttons so a
+       reader knows what they are committing to. Auto-fit rather than fixed
+       columns, so it reflows to fewer per row on a narrow screen instead of
+       scrolling sideways or crushing the text. */
     .steps {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(158px, 1fr));
       gap: 14px;
-      margin: 0 0 16px;
+      margin: 0 0 32px;
       padding: 0;
       list-style: none;
     }
@@ -81,13 +82,6 @@
       }
     }
 
-    .steps-h {
-      margin: 44px 0 16px;
-      text-align: center;
-      font-size: 19px;
-      letter-spacing: -0.01em;
-    }
-    .steps-h + .steps { margin-bottom: 8px; }
     .step {
       position: relative;
       background: var(--card);
@@ -191,13 +185,75 @@
       <p class="tagline">A desktop app for <strong>AI chat</strong> — private, and EU-sovereign. It runs <strong>GLM-5.2</strong> in Europe on Scaleway, and your keys stay on your device.</p>
     </header>
 
-    <p class="notice">
-      <strong>Free and open source — but you'll need a paid Scaleway key.</strong>
-      Sovatela has no AI of its own: it uses your own Scaleway account, and
-      <strong>Scaleway bills you directly</strong> for what you use — typically a
-      few cents a day for ordinary chat. Sovatela never handles payment and takes
-      no cut, and the app shows a running cost estimate on your device.
-    </p>
+    <ol class="steps">
+      <li class="step">
+        <span class="step-art" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="10" y="12" width="44" height="30" rx="4"/>
+            <path d="M6 48h52"/>
+            <path d="M32 20v14"/>
+            <path d="M26 28l6 6 6-6"/>
+          </svg>
+        </span>
+        <span class="step-n">1</span>
+        <span class="step-t">Download</span>
+        <span class="step-d"><a href="#downloads">macOS, Windows<br />or Linux</a></span>
+      </li>
+      <li class="step">
+        <span class="step-art" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="10" width="56" height="44" rx="5"/>
+            <path d="M4 21h56"/>
+            <circle cx="11" cy="15.5" r="1.5"/><circle cx="17" cy="15.5" r="1.5"/><circle cx="23" cy="15.5" r="1.5"/>
+            <circle cx="32" cy="32" r="6.5"/>
+            <path d="M21.5 47a10.5 10.5 0 0 1 21 0"/>
+          </svg>
+        </span>
+        <span class="step-n">2</span>
+        <span class="step-t">Scaleway account</span>
+        <span class="step-d">Free to open at<br /><a href="https://console.scaleway.com/register" rel="noopener">scaleway.com</a></span>
+      </li>
+      <li class="step">
+        <span class="step-art" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="19" cy="32" r="10"/>
+            <circle cx="19" cy="32" r="3.5"/>
+            <path d="M29 32h28"/>
+            <path d="M50 32v8"/>
+            <path d="M41 32v6"/>
+          </svg>
+        </span>
+        <span class="step-n">3</span>
+        <span class="step-t">Generate a key</span>
+        <span class="step-d">Copy it — Scaleway<br />shows it once</span>
+      </li>
+      <li class="step">
+        <span class="step-art" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="11" width="52" height="42" rx="5"/>
+            <path d="M6 22h52"/>
+            <rect x="14" y="30" width="36" height="12" rx="4"/>
+            <path d="M21 36h13"/>
+            <path d="M40 32.5v7"/>
+          </svg>
+        </span>
+        <span class="step-n">4</span>
+        <span class="step-t">Paste it in</span>
+        <span class="step-d">The first thing<br />the app asks for</span>
+      </li>
+      <li class="step done">
+        <span class="step-art" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 17a5 5 0 0 1 5-5h36a5 5 0 0 1 5 5v17a5 5 0 0 1-5 5H26l-11 9v-9h-1a5 5 0 0 1-5-5z"/>
+            <path d="M19 22h26"/>
+            <path d="M19 30h16"/>
+          </svg>
+        </span>
+        <span class="step-n">✓</span>
+        <span class="step-t">Chat</span>
+        <span class="step-d">Your key stays<br />on your device</span>
+      </li>
+    </ol>
 
     <main class="downloads" id="downloads">
       <!-- macOS (universal: Apple Silicon + Intel) -->
@@ -231,63 +287,14 @@
       </a>
     </main>
 
-    <h2 class="steps-h">Then, once it is installed</h2>
-    <ol class="steps">
-      <li class="step">
-        <span class="step-art" aria-hidden="true">
-          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="4" y="10" width="56" height="44" rx="5"/>
-            <path d="M4 21h56"/>
-            <circle cx="11" cy="15.5" r="1.5"/><circle cx="17" cy="15.5" r="1.5"/><circle cx="23" cy="15.5" r="1.5"/>
-            <circle cx="32" cy="32" r="6.5"/>
-            <path d="M21.5 47a10.5 10.5 0 0 1 21 0"/>
-          </svg>
-        </span>
-        <span class="step-n">1</span>
-        <span class="step-t">Scaleway account</span>
-        <span class="step-d">Free to open at<br /><a href="https://console.scaleway.com/register" rel="noopener">scaleway.com</a></span>
-      </li>
-      <li class="step">
-        <span class="step-art" aria-hidden="true">
-          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="19" cy="32" r="10"/>
-            <circle cx="19" cy="32" r="3.5"/>
-            <path d="M29 32h28"/>
-            <path d="M50 32v8"/>
-            <path d="M41 32v6"/>
-          </svg>
-        </span>
-        <span class="step-n">2</span>
-        <span class="step-t">Generate a key</span>
-        <span class="step-d">Copy it — Scaleway<br />shows it once</span>
-      </li>
-      <li class="step">
-        <span class="step-art" aria-hidden="true">
-          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="6" y="11" width="52" height="42" rx="5"/>
-            <path d="M6 22h52"/>
-            <rect x="14" y="30" width="36" height="12" rx="4"/>
-            <path d="M21 36h13"/>
-            <path d="M40 32.5v7"/>
-          </svg>
-        </span>
-        <span class="step-n">3</span>
-        <span class="step-t">Paste it in</span>
-        <span class="step-d">The first thing<br />the app asks for</span>
-      </li>
-      <li class="step done">
-        <span class="step-art" aria-hidden="true">
-          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 17a5 5 0 0 1 5-5h36a5 5 0 0 1 5 5v17a5 5 0 0 1-5 5H26l-11 9v-9h-1a5 5 0 0 1-5-5z"/>
-            <path d="M19 22h26"/>
-            <path d="M19 30h16"/>
-          </svg>
-        </span>
-        <span class="step-n">✓</span>
-        <span class="step-t">Chat</span>
-        <span class="step-d">Your key stays<br />on your device</span>
-      </li>
-    </ol>
+    <p class="notice">
+      <strong>Free and open source — but you'll need a paid Scaleway key.</strong>
+      Sovatela has no AI of its own: it uses your own Scaleway account, and
+      <strong>Scaleway bills you directly</strong> for what you use — typically a
+      few cents a day for ordinary chat. Sovatela never handles payment and takes
+      no cut, and the app shows a running cost estimate on your device.
+    </p>
+
 
     <p class="secondary">
       Also available: <a href="https://github.com/jacobla1/sovatela/releases/download/v1.2.0/Sovatela_1.2.0_x64_en-US.msi">Windows .msi</a> (for managed deployment) ·
