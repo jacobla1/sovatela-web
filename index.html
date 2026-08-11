@@ -56,6 +56,88 @@
       font-size: 14.5px;
       color: var(--muted);
     }
+
+    /* Five steps from download to first answer. Auto-fit rather than a fixed
+       five columns, so it reflows to fewer per row on a narrow screen instead
+       of scrolling sideways or crushing the text. */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin: 0 0 12px;
+      padding: 0;
+      list-style: none;
+    }
+
+    /* Five illustrated cards do not fit across a 720px column. Where there is
+       room, the strip breaks out wider than the rest of the page — which also
+       marks it as the overview rather than part of the body copy. Below that,
+       it stays inside the column and auto-fit folds it to fewer per row. */
+    @media (min-width: 860px) {
+      .steps {
+        width: min(880px, 94vw);
+        margin-left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+    .step {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 14px 16px;
+      text-align: center;
+    }
+    .step-n {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      margin-bottom: 10px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent) 12%, var(--card));
+      border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
+      color: var(--accent-2);
+      font-size: 14px;
+      font-weight: 700;
+    }
+    /* Inline SVG rather than image files: they inherit the accent and the
+       theme, so there is no second dark-mode copy and nothing extra to fetch.
+       Same line weight and rounding as the drawings in the app. */
+    .step-art { color: var(--accent); display: block; margin: 0 auto 10px; }
+    .step-art svg { width: 56px; height: 56px; display: block; margin: 0 auto; }
+    .step-t { display: block; font-weight: 650; font-size: 14.5px; margin-bottom: 4px; }
+    .step-d { display: block; font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+    .step a { color: var(--accent-2); }
+
+    /* The payoff step, marked so the eye lands on where this is going. */
+    .step.done {
+      background: color-mix(in srgb, var(--accent) 10%, var(--card));
+      border-color: color-mix(in srgb, var(--accent) 38%, var(--border));
+    }
+    .step.done .step-n {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Chevrons between steps, drawn only when they are actually side by side.
+       Decorative: the numbers carry the order for anyone who cannot see them. */
+    @media (min-width: 860px) {
+      .step + .step::before {
+        content: "";
+        position: absolute;
+        left: -8px;
+        top: 50%;
+        width: 7px;
+        height: 7px;
+        margin-top: -4px;
+        border-right: 2px solid var(--border);
+        border-bottom: 2px solid var(--border);
+        transform: rotate(-45deg);
+      }
+    }
     .notice strong { color: var(--text); font-weight: 600; }
 
     .downloads { display: flex; flex-direction: column; gap: 14px; }
@@ -101,15 +183,85 @@
       <p class="tagline">A private, EU-sovereign desktop client for <strong>GLM-5.2</strong> — hosted in Europe on Scaleway. Your keys stay on your device.</p>
     </header>
 
+    <ol class="steps">
+      <li class="step">
+        <span class="step-art" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="10" y="12" width="44" height="30" rx="4"/>
+            <path d="M6 48h52"/>
+            <path d="M32 20v14"/>
+            <path d="M26 28l6 6 6-6"/>
+          </svg>
+        </span>
+        <span class="step-n">1</span>
+        <span class="step-t">Download Sovatela</span>
+        <span class="step-d"><a href="#downloads">Pick your platform</a> — macOS, Windows or Linux</span>
+      </li>
+      <li class="step">
+        <span class="step-art" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="10" width="56" height="44" rx="5"/>
+            <path d="M4 21h56"/>
+            <circle cx="11" cy="15.5" r="1.5"/><circle cx="17" cy="15.5" r="1.5"/><circle cx="23" cy="15.5" r="1.5"/>
+            <circle cx="32" cy="32" r="6.5"/>
+            <path d="M21.5 47a10.5 10.5 0 0 1 21 0"/>
+          </svg>
+        </span>
+        <span class="step-n">2</span>
+        <span class="step-t">Create a Scaleway account</span>
+        <span class="step-d">Free to open at <a href="https://console.scaleway.com/register" rel="noopener">scaleway.com</a>; you add a card</span>
+      </li>
+      <li class="step">
+        <span class="step-art" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="19" cy="32" r="10"/>
+            <circle cx="19" cy="32" r="3.5"/>
+            <path d="M29 32h28"/>
+            <path d="M50 32v8"/>
+            <path d="M41 32v6"/>
+          </svg>
+        </span>
+        <span class="step-n">3</span>
+        <span class="step-t">Generate an API key</span>
+        <span class="step-d">Copy the <strong>Secret Key</strong> — Scaleway shows it once</span>
+      </li>
+      <li class="step">
+        <span class="step-art" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="11" width="52" height="42" rx="5"/>
+            <path d="M6 22h52"/>
+            <rect x="14" y="30" width="36" height="12" rx="4"/>
+            <path d="M21 36h13"/>
+            <path d="M40 32.5v7"/>
+          </svg>
+        </span>
+        <span class="step-n">4</span>
+        <span class="step-t">Paste it into the app</span>
+        <span class="step-d">It's the first thing Sovatela asks for</span>
+      </li>
+      <li class="step done">
+        <span class="step-art" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 17a5 5 0 0 1 5-5h36a5 5 0 0 1 5 5v17a5 5 0 0 1-5 5H26l-11 9v-9h-1a5 5 0 0 1-5-5z"/>
+            <path d="M19 22h26"/>
+            <path d="M19 30h16"/>
+          </svg>
+        </span>
+        <span class="step-n">✓</span>
+        <span class="step-t">Chat</span>
+        <span class="step-d">Your key stays on your device</span>
+      </li>
+    </ol>
+
     <p class="notice">
       <strong>Free and open source — but you'll need a paid Scaleway key.</strong>
-      Sovatela has no AI of its own. It uses your own Scaleway account, and
+      Sovatela has no AI of its own: it uses your own Scaleway account, and
       <strong>Scaleway bills you directly</strong> for what you use — typically a
       few cents a day for ordinary chat. Sovatela never handles payment and takes
-      no cut. The app shows a running cost estimate on your device.
+      no cut, and the app shows a running cost estimate on your device.
     </p>
 
-    <main class="downloads">
+    <main class="downloads" id="downloads">
       <!-- macOS (universal: Apple Silicon + Intel) -->
       <a class="dl" href="https://github.com/jacobla1/sovatela/releases/download/v1.2.0/Sovatela_1.2.0_universal.dmg" download>
         <span class="dl-os"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg></span>
