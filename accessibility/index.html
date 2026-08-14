@@ -76,7 +76,7 @@
   <div class="wrap">
     <a class="back" href="/">← Sovatela</a>
     <h1>Accessibility statement</h1>
-<p>Applies to: Sovatela v1.2.0 · Last reviewed: 2026-08-05</p>
+<p>Applies to: Sovatela v1.3.0 · Last reviewed: 2026-08-14</p>
 <h2>Our position</h2>
 <p>We want Sovatela to be usable by everyone. It currently <strong>is not fully
 accessible</strong>, and this statement says where it falls short rather than claiming
@@ -121,6 +121,11 @@ by the words &quot;generated image&quot;.</li>
 <td><strong>Text scales to 150%, not 200%</strong>, and spacing does not scale with it. The type ramp is now in <code>rem</code> and the app provides its own size control, but the criterion asks for 200%, and padding is still fixed so larger settings tighten the layout rather than growing it.</td>
 <td>Readers who need more than 150% are not served.</td>
 <td>1.4.4 Resize Text (AA)</td>
+</tr>
+<tr>
+<td><strong>The four welcome-screen cards are pictures of their own words.</strong> Their titles and notes are composited into the artwork, so they do not grow with the text-size control and do not follow the light theme. Each card&#39;s wording is repeated verbatim in its alternative text.</td>
+<td>A reader who enlarges type sees the rest of the app grow while these four do not. Screen readers are unaffected.</td>
+<td>1.4.5 Images of Text (AA), 1.4.4</td>
 </tr>
 <tr>
 <td><strong>Sparse ARIA coverage</strong> — around 30 attributes across the whole interface. Panels, lists, and the history sidebar lack landmark roles and structural labelling.</td>
