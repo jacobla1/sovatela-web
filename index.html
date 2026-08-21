@@ -168,16 +168,6 @@
     .sums td.file { white-space: nowrap; padding-right: 16px; }
     .sums code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; color: var(--muted); }
 
-    /* The half of setup that a caption cannot carry. Sits under the strip and
-       inside the text column, so it reads as its footnote, not a new section. */
-    .steps-note {
-      margin: -18px 0 32px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.65;
-    }
-    .steps-note strong { color: var(--text); }
-
     footer { margin-top: 48px; text-align: center; color: var(--muted); font-size: 13px; line-height: 1.7; }
     footer a { color: var(--accent-2); }
     footer .legal { margin: 14px 0 6px; }
@@ -205,18 +195,17 @@
         <span class="step-n">2</span>
       </li>
       <li class="step">
-        <span class="step-art"><img src="steps/genKey.webp" alt="Generate an API key. Copy it — Scaleway shows it once" width="640" height="640" loading="lazy" /></span>
+        <span class="step-art"><img src="steps/genKey.webp" alt="Generate an API key. Copy it" width="640" height="640" loading="lazy" /></span>
         <span class="step-n">3</span>
       </li>
     </ol>
 
-    <p class="steps-note">
-      <strong>Scaleway shows the key once</strong>, at the moment you create it —
-      copy it before you leave that page. Nobody can retrieve it afterwards, not
-      Scaleway and not us; if it is lost you simply generate another. Then paste
-      it into Sovatela: it is the first thing the app asks for, and it goes
-      straight into your device's keychain. This app has no server of its own for
-      it to reach.
+    <p class="notice">
+      <strong>Free and open source — but you'll need a paid Scaleway key.</strong>
+      Sovatela has no AI of its own: it uses your own Scaleway account, and
+      <strong>Scaleway bills you directly</strong> for what you use — typically a
+      few cents a day for ordinary chat. Sovatela never handles payment and takes
+      no cut, and the app shows a running cost estimate on your device.
     </p>
 
     <main class="downloads" id="downloads">
@@ -251,14 +240,6 @@
       </a>
     </main>
 
-    <p class="notice">
-      <strong>Free and open source — but you'll need a paid Scaleway key.</strong>
-      Sovatela has no AI of its own: it uses your own Scaleway account, and
-      <strong>Scaleway bills you directly</strong> for what you use — typically a
-      few cents a day for ordinary chat. Sovatela never handles payment and takes
-      no cut, and the app shows a running cost estimate on your device.
-    </p>
-
 
     <p class="secondary">
       Also available: <a href="https://github.com/jacobla1/sovatela/releases/download/v1.3.1/Sovatela_1.3.1_x64_en-US.msi">Windows .msi</a> (for managed deployment) ·
@@ -288,10 +269,6 @@
     </details>
 
     <footer>
-      <p>
-        Sovatela talks to <strong>GLM-5.2</strong>, Z.ai's open model hosted in France by Scaleway.
-        You bring your own Scaleway key; it never leaves your device.
-      </p>
       <p class="legal">
         <a href="/accessibility">Accessibility</a>
       </p>
@@ -301,7 +278,7 @@
         <a href="https://github.com/jacobla1/sovatela">Source on GitHub</a>
       </p>
       <p class="name-note">
-        <strong>Sovatela</strong> — <em>sova</em>, the owl, for wisdom;
+        <strong>Sovatela</strong> — from <em>sova</em>, Slavic for owl, and
         <em>tutela</em>, Latin for guardianship.
       </p>
       <!-- Name only the marks this page actually uses. Ollama was named here
