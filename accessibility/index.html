@@ -76,7 +76,7 @@
   <div class="wrap">
     <a class="back" href="/">← Sovatela</a>
     <h1>Accessibility statement</h1>
-<p>Applies to: Sovatela v1.5.2 · Last reviewed: 2026-08-21</p>
+<p>Applies to: Sovatela v1.5.3 · Last reviewed: 2026-08-26</p>
 <h2>Our position</h2>
 <p>We want Sovatela to be usable by everyone. It currently <strong>is not fully
 accessible</strong>, and this statement says where it falls short rather than claiming
@@ -89,13 +89,61 @@ independent audit; treat this as a self-assessment.</p>
 <ul>
 <li><strong>Semantic HTML</strong> with a declared page language (<code>lang=&quot;en&quot;</code>).</li>
 <li><strong>Light and dark themes</strong>, following the system setting.</li>
-<li><strong>Adjustable text size</strong> — <em>Settings → Appearance → Text size</em>, up to 150%.
-A desktop app has no address bar to zoom with, and neither macOS nor Windows
+<li><strong>Adjustable text size to 200%</strong> — <em>Settings → Appearance → Text size</em>. A
+desktop app has no address bar to zoom with, and neither macOS nor Windows
 passes its text-size setting to an app like this one, so the app provides the
-control itself.</li>
+control itself. The spacing scale is in <code>rem</code>, so the layout grows with the
+type instead of packing larger text into the same gaps.</li>
 <li><strong>Reduced motion is respected.</strong> With the system setting on, animation and
 transitions stop. The two status dots that pulse to mean &quot;in progress&quot; become
 unfilled rings rather than simply freezing, so the state they carry survives.</li>
+<li><strong>Colour contrast meets AA in both themes</strong>, measured rather than assumed.
+Every text and control pair is computed from the palette on each build
+(<code>tests/contrast.test.js</code>) and the build fails if one drops below its
+requirement — 4.5:1 for text, 3:1 for the edges of controls. Nine pairs were
+short when this was first measured, including warning text at 2.77:1; each
+was corrected rather than annotated. Two colours had to be split apart to get
+there: the accent, because text on a page and white on a filled button pull
+in opposite directions, and the amber used for warnings, which cannot be one
+value across a light and a dark theme.</li>
+<li><strong>More contrast if your system asks for it.</strong> With <em>increase contrast</em> set in
+your operating system, secondary text and the edges of controls step up well
+past the requirement — to 7.7:1 and 10.6:1 for muted text in the two themes.
+There is no setting to find in the app: this follows the choice you already
+made, as reduced motion does.</li>
+<li><strong>The project dialog behaves like a dialog.</strong> Opening it moves focus to the
+name field, <kbd>Tab</kbd> and <kbd>Shift</kbd>+<kbd>Tab</kbd> cycle within
+it rather than walking into the page behind, <kbd>Esc</kbd> closes it, and
+closing returns focus to whatever opened it — including when the row that
+opened it has been deleted. It had declared <code>role=&quot;dialog&quot;</code> and
+<code>aria-modal=&quot;true&quot;</code> while doing none of that, which told a screen reader the
+user had entered a dialog while the keyboard was still outside it.</li>
+<li><strong>A reply is announced once, when it is whole.</strong> The conversation used to be
+a live region, so every token of a streaming answer was read as it arrived
+and a paragraph came out as a stutter of fragments. One polite announcer now
+carries what is worth hearing: what the assistant is doing while it takes a
+while, and then the answer itself, read as a sentence. A reply that finishes
+in a chat you are not reading does not interrupt the one you are. Generated
+code is described — <em>&quot;html artifact, shown in the panel&quot;</em> — rather than
+spoken aloud.</li>
+<li><strong>Structure a screen reader can move through.</strong> Each view has one <code>main</code>.
+The chat list is named navigation holding real lists, so it announces &quot;3 of
+12&quot; rather than a run of buttons, and marks which chat is open. Settings is
+seven named sections rather than one long page. The conversation and the
+artifact panel are named regions.</li>
+<li><strong>Keyboard shortcuts</strong>, with a reference at <kbd>?</kbd> and a <em>Shortcuts</em>
+button beside <em>Guide</em> — a shortcut reachable only by a key you do not know
+about is not much use. <kbd>⌘</kbd>/<kbd>Ctrl</kbd> with <kbd>K</kbd> for a
+new chat, <kbd>B</kbd> for the chat list, <kbd>/</kbd> for the message box,
+<kbd>,</kbd> for Settings. <kbd>Esc</kbd> closes what is on top, or stops a
+reply. Nothing is bound to a bare letter, because a bare letter is a
+character someone is typing.</li>
+<li><strong>The welcome screen&#39;s wording is text.</strong> Its four step cards used to carry
+their titles and notes composited into the artwork, so that wording alone did
+not grow with the text-size control and did not follow the light theme. The
+artwork is wordless now and the words beside it are ordinary text; the
+pictures are marked decorative, since repeating the same words in alternative
+text would only have them read twice.</li>
 <li><strong>Visible focus indicators</strong> on interactive controls.</li>
 <li><strong>Labelled controls</strong> — icon-only buttons carry <code>aria-label</code>; toggles expose
 <code>aria-pressed</code>; decorative icons are <code>aria-hidden</code>.</li>
@@ -117,47 +165,9 @@ by the words &quot;generated image&quot;.</li>
 <th>WCAG</th>
 </tr>
 </thead>
-<tbody><tr>
-<td><strong>Text scales to 150%, not 200%</strong>, and spacing does not scale with it. The type ramp is now in <code>rem</code> and the app provides its own size control, but the criterion asks for 200%, and padding is still fixed so larger settings tighten the layout rather than growing it.</td>
-<td>Readers who need more than 150% are not served.</td>
-<td>1.4.4 Resize Text (AA)</td>
-</tr>
-<tr>
-<td><strong>The four welcome-screen cards are pictures of their own words.</strong> Their titles and notes are composited into the artwork, so they do not grow with the text-size control and do not follow the light theme. Each card&#39;s wording is repeated verbatim in its alternative text.</td>
-<td>A reader who enlarges type sees the rest of the app grow while these four do not. Screen readers are unaffected.</td>
-<td>1.4.5 Images of Text (AA), 1.4.4</td>
-</tr>
-<tr>
-<td><strong>Sparse ARIA coverage</strong> — around 30 attributes across the whole interface. Panels, lists, and the history sidebar lack landmark roles and structural labelling.</td>
-<td>Screen-reader users get a flat, hard-to-navigate structure.</td>
-<td>1.3.1, 4.1.2</td>
-</tr>
-<tr>
-<td><strong>No keyboard shortcuts beyond <kbd>Enter</kbd> and <kbd>Esc</kbd></strong> — no way to start a new chat, focus the composer, open settings, or move between panels without a pointer.</td>
-<td>Keyboard-only users must tab through everything.</td>
-<td>2.1.1</td>
-</tr>
-<tr>
-<td><strong>Focus management on panel open/close is not explicitly handled</strong> — focus may not move into a dialog or return to the trigger.</td>
-<td>Disorientation for screen-reader and keyboard users.</td>
-<td>2.4.3</td>
-</tr>
-<tr>
-<td><strong>Colour contrast has not been formally measured</strong> against either theme.</td>
-<td>Unknown; likely acceptable for body text, uncertain for muted secondary text.</td>
-<td>1.4.3</td>
-</tr>
-<tr>
-<td><strong>No screen-reader testing</strong> has been performed with VoiceOver, NVDA, JAWS, or Orca.</td>
-<td>Real behaviour is unverified.</td>
-<td>—</td>
-</tr>
-<tr>
-<td><strong>Streaming output announcement is untuned</strong> — a live region emitting a token stream can be overwhelming.</td>
-<td>Verbose, possibly unusable announcement during replies.</td>
-<td>4.1.3</td>
-</tr>
-</tbody></table>
+</table>
+<p>| <strong>Focus management is handled in the project dialog, not yet elsewhere.</strong> That dialog now takes focus to its first field, keeps Tab inside it, and hands focus back to whatever opened it. Settings, the Guide and the history sidebar are full-screen or inline rather than modal, and still move focus only as the browser would. | Improved where a dialog traps interaction; unchanged elsewhere. | 2.4.3 (AA) |
+| <strong>Screen-reader testing is partial.</strong> A first pass with VoiceOver on macOS confirmed two things behave as intended: the project dialog takes focus and keeps it, and a streaming reply is read once when it finishes rather than a token at a time. The chat list&#39;s announcement was not exercised, and no testing has been done with NVDA, JAWS or Orca — so Windows and Linux behaviour is unverified. | Two paths are known good on one reader; the rest is reasoned from the markup. | — |</p>
 <h2>What we intend to do</h2>
 <p>In rough priority order:</p>
 <ol>
