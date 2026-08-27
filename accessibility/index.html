@@ -165,22 +165,43 @@ by the words &quot;generated image&quot;.</li>
 <th>WCAG</th>
 </tr>
 </thead>
-</table>
-<p>| <strong>Focus management is handled in the project dialog, not yet elsewhere.</strong> That dialog now takes focus to its first field, keeps Tab inside it, and hands focus back to whatever opened it. Settings, the Guide and the history sidebar are full-screen or inline rather than modal, and still move focus only as the browser would. | Improved where a dialog traps interaction; unchanged elsewhere. | 2.4.3 (AA) |
-| <strong>Screen-reader testing is partial.</strong> A first pass with VoiceOver on macOS confirmed two things behave as intended: the project dialog takes focus and keeps it, and a streaming reply is read once when it finishes rather than a token at a time. The chat list&#39;s announcement was not exercised, and no testing has been done with NVDA, JAWS or Orca — so Windows and Linux behaviour is unverified. | Two paths are known good on one reader; the rest is reasoned from the markup. | — |</p>
+<tbody><tr>
+<td><strong>The keyboard-shortcuts dialog does not manage focus.</strong> It declares itself a dialog but does not move focus into itself, does not keep <kbd>Tab</kbd> inside, and does not return focus on closing — the same defect the project dialog had until 1.5.3, in a dialog added by that release.</td>
+<td>A keyboard or screen-reader user opening it is told they have entered a dialog while their focus is still behind it.</td>
+<td>2.4.3 (AA), 4.1.2 (A)</td>
+</tr>
+<tr>
+<td><strong><kbd>Esc</kbd> can do two things at once.</strong> Closing a dialog with it also reaches the handler behind, which may stop a running reply or close the artifact panel in the same keystroke.</td>
+<td>An action the user did not ask for, alongside the one they did.</td>
+<td>3.2.2 (A)</td>
+</tr>
+<tr>
+<td><strong>Focus management is handled in the project dialog, not yet elsewhere.</strong> That dialog now takes focus to its first field, keeps Tab inside it, and hands focus back to whatever opened it. Settings, the Guide and the history sidebar are full-screen or inline rather than modal, and still move focus only as the browser would.</td>
+<td>Improved where a dialog traps interaction; unchanged elsewhere.</td>
+<td>2.4.3 (AA)</td>
+</tr>
+<tr>
+<td><strong>Screen-reader testing is partial.</strong> A first pass with VoiceOver on macOS confirmed two things behave as intended: the project dialog takes focus and keeps it, and a streaming reply is read once when it finishes rather than a token at a time. The chat list&#39;s announcement was not exercised, and no testing has been done with NVDA, JAWS or Orca — so Windows and Linux behaviour is unverified.</td>
+<td>Two paths are known good on one reader; the rest is reasoned from the markup.</td>
+<td>—</td>
+</tr>
+</tbody></table>
 <h2>What we intend to do</h2>
 <p>In rough priority order:</p>
 <ol>
-<li>Add a keyboard shortcut set with an in-app reference, plus focus management
-on panel transitions.</li>
-<li>Add landmark roles and structural labelling; retune the live region to
-announce completion rather than every token.</li>
-<li>Carry text scaling to 200%, and decide whether spacing should scale with it.
-The remaining obstacle is that most padding is written in fixed pixels
-rather than relative units.</li>
-<li>Measure contrast in both themes and correct failures.</li>
-<li>Test with at least one screen reader per platform.</li>
+<li>Give the keyboard-shortcuts dialog the focus handling the project dialog
+already has, and stop <kbd>Esc</kbd> reaching two handlers at once.</li>
+<li>Finish the labelling outside the chat view.</li>
+<li>Test with at least one screen reader per platform, and on the paths a first
+pass did not reach.</li>
 </ol>
+<p>Done in 1.5.3: keyboard shortcuts with an in-app reference; landmark roles and
+list structure; the live region retuned to announce a reply once it is whole
+rather than every token; text scaling to 200% with a spacing scale in <code>rem</code>
+that grows with it; contrast measured in both themes, nine shortfalls
+corrected, and <code>prefers-contrast: more</code> honoured; focus management in the
+project dialog; and the welcome cards&#39; wording moved out of the artwork into
+text.</p>
 <p>Done in 1.2.0: the type scale moved from <code>px</code> to <code>rem</code> with a text-size control
 to drive it, the 10px minimum was raised to 11px, and <code>prefers-reduced-motion</code>
 is now honoured throughout — including in scripted scrolling, which CSS alone
