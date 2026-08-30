@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy policy — Sovatela</title>
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --border: #e4e6eb;
+      --accent: #5a37f0;
+      --accent-2: #6b4bff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #17181c;
+        --card: #1f2126;
+        --text: #ededed;
+        --muted: #b4b9c2;
+        --border: #2c2f36;
+        --accent: #7c5cff;
+        --accent-2: #8b6bff;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.65;
+    }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 40px 24px 80px; }
+    .back { display: inline-block; margin-bottom: 28px; color: var(--accent-2); font-size: 14px; text-decoration: none; }
+    .back:hover { text-decoration: underline; }
+    h1 { font-size: 30px; margin: 0 0 20px; letter-spacing: -0.02em; }
+    h2 { font-size: 20px; margin: 40px 0 12px; letter-spacing: -0.01em; }
+    h3 { font-size: 16px; margin: 28px 0 10px; }
+    p, li { font-size: 15.5px; }
+    a { color: var(--accent-2); }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.9em;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 1px 5px;
+    }
+    pre {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      overflow-x: auto;
+    }
+    pre code { background: none; border: 0; padding: 0; }
+    blockquote {
+      margin: 20px 0;
+      padding: 2px 18px;
+      border-left: 3px solid var(--accent);
+      color: var(--muted);
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 14.5px; margin: 20px 0; display: block; overflow-x: auto; }
+    th, td { padding: 9px 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+    th { font-weight: 600; }
+    hr { border: 0; border-top: 1px solid var(--border); margin: 36px 0; }
+    footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; line-height: 1.7; }
+    footer a { color: var(--accent-2); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/">← Sovatela</a>
+    <h1>Privacy policy</h1>
+<p>Last updated: 2026-08-30 · Applies to: Sovatela v1.6.0</p>
+<blockquote>
+<p><strong>How this was written, since you are entitled to know.</strong> By the publisher,
+not by a lawyer. It is written to be accurate about what the software does,
+and that half is checkable rather than asserted: every destination named in
+§ 4 was confirmed by capturing a released build&#39;s network traffic, and the
+code that decides each one is public. What has <em>not</em> had professional review
+is the legal characterisation in § 5 — who is a controller for what. That is
+said here rather than left to be discovered, because an unreviewed policy you
+can read beats a reviewed one you cannot.</p>
+</blockquote>
+<hr>
+<h2>1. Who we are</h2>
+<p><strong>Jacob Bergmann Larsen</strong> is the publisher of Sovatela and the data controller
+for the limited processing described in § 5. Sovatela is published by an
+individual rather than a company, and is provided free of charge.</p>
+<p><strong>Contact:</strong> <code>info@anaubi.com</code> — for privacy requests and everything else. A
+postal address is available on request to that address, and to any supervisory
+or enforcement authority that asks for it.</p>
+<h2>2. The short version</h2>
+<p><strong>Sovatela collects nothing.</strong> It has no server, no account system, no
+telemetry, no analytics, and no crash reporting. The publisher receives no data
+from the application — not usage statistics, not error reports, not your
+messages.</p>
+<p>Your data goes to two places: <strong>your own device</strong>, and <strong>the AI providers you
+choose to connect</strong>, using <strong>your own accounts</strong> with them.</p>
+<h2>3. What the application stores, and where</h2>
+<p>All on your device, in your operating system&#39;s application-data folder or a
+folder you nominate:</p>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Where</th>
+<th>Removable by</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Conversations and attachments</td>
+<td><code>conversations/</code> in your data folder, or a folder you choose</td>
+<td>Settings → Privacy &amp; data; or delete the folder</td>
+</tr>
+<tr>
+<td>Remembered facts, projects</td>
+<td>Your data folder</td>
+<td>Settings → Privacy &amp; data</td>
+</tr>
+<tr>
+<td>Preferences and provider configuration</td>
+<td><code>settings.json</code></td>
+<td>Delete the folder</td>
+</tr>
+<tr>
+<td>Local usage and cost estimates</td>
+<td><code>usage.json</code></td>
+<td>Settings → Usage &amp; cost → reset</td>
+</tr>
+<tr>
+<td>API keys</td>
+<td>Your OS credential store (<code>com.anaubi.sovatela</code>)</td>
+<td>Settings → Scaleway API key → Remove key from this app</td>
+</tr>
+</tbody></table>
+<p>Recording of conversations can be switched off entirely, in which case nothing
+is written.</p>
+<p>Full instructions: Uninstall and data deletion.</p>
+<h2>4. What is sent, and to whom</h2>
+<p>The application transmits data using your own credentials, to the providers you
+configured. Three destinations are not providers, and are listed here rather
+than left to be discovered: <code>sovatela.eu</code> when you press <em>Check for updates</em>,
+<code>raw.githubusercontent.com</code> when you press <em>Check for updated prices</em>, and —
+while web search is on — whichever public page the model decides to read. See
+<a href="/security">Security</a> for what each one sends, which in the first two
+cases is nothing about you:</p>
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Receives</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Scaleway (France)</td>
+<td>Your messages, attached file text, images, and system context</td>
+<td>Every message</td>
+</tr>
+<tr>
+<td>Your search provider (Linkup / Qwant Staan / your SearXNG)</td>
+<td>Search queries the model generates</td>
+<td>Only when web search is on</td>
+</tr>
+<tr>
+<td>Your image provider (OVHcloud / Black Forest Labs / your endpoint)</td>
+<td>Image prompts</td>
+<td>Only when you generate an image</td>
+</tr>
+</tbody></table>
+<p><strong>Terminal access (<code>claude-glm</code>)</strong> is a separate case, because what it sends is
+not chosen by this app. If you set it up under Settings → Advanced, Claude Code
+runs on your machine and sends your prompts and whatever repository context it
+gathers through a local proxy to Scaleway. But Claude Code is an agent: it also
+runs commands, installs packages, fetches web pages, and talks to any MCP
+servers you have configured, and those reach hosts of their own — including
+outside Europe. Sovatela neither controls nor observes that traffic. If this
+matters to you, the section names a firewall profile that bounds it, and the
+feature is off until you install it.</p>
+<p>Each provider processes that data under <strong>its own terms and privacy policy</strong>,
+which you accept when you create an account with them. Links to each provider&#39;s
+policy are shown in the app where you enable that provider.</p>
+<p>The app makes no other network connections, and none of the three above happens
+on its own: each is a button you press. Nothing runs in the background, nothing
+is reported about you or your machine, and no remote resource is loaded into the
+interface. There is no automatic updater — the version check is a button in
+Settings ▸ About, and it fetches a static file.</p>
+<h2>5. Legal basis and roles</h2>
+<p>The publisher is a controller for one narrow thing:</p>
+<table>
+<thead>
+<tr>
+<th>What</th>
+<th>Legal basis</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Direct correspondence</strong> — support, security and privacy email</td>
+<td>Legitimate interests (Art. 6(1)(f)): answering the message you sent</td>
+</tr>
+</tbody></table>
+<p>That is the whole of it. The website is not a second entry — it is hosted by
+GitHub Pages, and we keep no logs of it. See § 6.</p>
+<p>The application itself is outside this. It has no server component and sends the
+publisher nothing, so there is no processing to have a basis for — the publisher
+is <strong>not a controller and not a processor of your conversations</strong>, and has no
+access to them.</p>
+<p>Your relationship with Scaleway and your other providers is direct: your
+account, your key, their terms. The publisher is not a party to it and cannot
+act on your behalf there.</p>
+<h2>6. Website</h2>
+<p><code>https://sovatela.eu</code> — the download page and these policy pages.</p>
+<p>The site is <strong>hosted by GitHub Pages</strong>. We run no server for it, so we keep no
+access logs and receive no visitor data — not your IP address, not which pages
+you read, not what you downloaded. There is nothing for us to hand over,
+because there is nothing for us to hold.</p>
+<p><strong>The site sets no cookies and runs no analytics.</strong> There is no tracking script,
+no tag manager, and no consent banner, because there is nothing to consent to.</p>
+<p>GitHub serves the pages and the installer downloads, and processes requests —
+including your IP address — under
+<a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">GitHub&#39;s privacy statement</a>,
+as it would for any site it hosts. We do not receive that data and cannot
+access it.</p>
+<p>Aggregate counts are the one thing we can see: GitHub reports how many times
+each release file has been downloaded, and page-view totals for a public
+repository. Both are numbers only — no IP addresses, no identifiers, and
+nothing that distinguishes one visitor from another.</p>
+<h2>7. Your rights</h2>
+<p>Under the GDPR you have rights of access, rectification, erasure, restriction,
+portability, and objection.</p>
+<p>For <strong>data held by the publisher</strong>: the application sends us nothing and the
+website gives us nothing, so in practice this is only the correspondence you
+have sent us. Contact <code>info@anaubi.com</code>; we respond within one month.</p>
+<p>For <strong>data on your device</strong>: you exercise these rights directly — the data is in
+files you own, and the app can delete them for you.</p>
+<p>For <strong>data held by Scaleway or other providers</strong>: contact them. We cannot act on
+your behalf, as we have no relationship with your account there.</p>
+<p>You may lodge a complaint with <code>Datatilsynet (the Danish Data Protection Agency)</code>.</p>
+<h2>8. Security</h2>
+<p>Keys are stored in the OS credential store, never in files. Generated artifacts
+run sandboxed with no network or filesystem access. See
+<a href="/security"><code>SECURITY.md</code></a>, which documents what the design does <em>not</em>
+protect against as well as what it does.</p>
+<h2>9. Changes</h2>
+<p>Material changes get a new &quot;last updated&quot; date above and a note in the release
+notes. Prior versions are available on request.</p>
+
+    <footer>
+      <p>
+        <a href="/privacy">Privacy</a> ·
+        <a href="/security">Security</a> ·
+        <a href="/accessibility">Accessibility</a>
+      </p>
+      <p>
+        Published by <strong>Jacob Bergmann Larsen</strong> ·
+        <a href="mailto:info@anaubi.com">info@anaubi.com</a> ·
+        <a href="https://github.com/jacobla1/sovatela">Source on GitHub</a>
+      </p>
+    </footer>
+  </div>
+</body>
+</html>

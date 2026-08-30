@@ -76,7 +76,7 @@
   <div class="wrap">
     <a class="back" href="/">← Sovatela</a>
     <h1>Accessibility statement</h1>
-<p>Applies to: Sovatela v1.5.6 · Last reviewed: 2026-08-28</p>
+<p>Applies to: Sovatela v1.6.0 · Last reviewed: 2026-08-29</p>
 <h2>Our position</h2>
 <p>We want Sovatela to be usable by everyone. It currently <strong>is not fully
 accessible</strong>, and this statement says where it falls short rather than claiming
@@ -226,8 +226,9 @@ be a guess.</p>
 <h2>Compatibility</h2>
 <p>Sovatela is a desktop application rendering in a system webview (WebKit on
 macOS and Linux, WebView2 on Windows). Platform screen readers and system-level
-zoom generally apply, but per the gaps above, in-app text scaling does not
-respond to text-size settings.</p>
+zoom apply. Neither macOS nor Windows passes its own text-size setting through
+to an application like this one, which is why the app carries the control
+itself — Settings ▸ Appearance ▸ Text size, up to 200%.</p>
 <h2>Feedback</h2>
 <p>If you hit an accessibility barrier, tell us — it will be treated as a bug, not
 a request:</p>
@@ -253,6 +254,8 @@ legally required to fix them.</p>
 
     <footer>
       <p>
+        <a href="/privacy">Privacy</a> ·
+        <a href="/security">Security</a> ·
         <a href="/accessibility">Accessibility</a>
       </p>
       <p>
