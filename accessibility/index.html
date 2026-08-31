@@ -95,8 +95,9 @@
 <h2>Our position</h2>
 <p>We want Sovatela to be usable by everyone. It currently <strong>is not fully
 accessible</strong>, and this statement says where it falls short rather than claiming
-otherwise. The gaps below are real, were found by review of the source, and are
-tracked as work — not as acceptable.</p>
+otherwise. The gaps below are real and were found by review of the source. Some
+have been fixed; others have no date, and this page says which is which rather
+than describing everything as &quot;tracked&quot;.</p>
 <p><strong>Conformance status: partially conformant with WCAG 2.1 level AA.</strong> &quot;Partially
 conformant&quot; means some parts do not fully conform. We have not commissioned an
 independent audit; treat this as a self-assessment.</p>
@@ -211,20 +212,28 @@ by the words &quot;generated image&quot;.</p>
 <td>2.4.3 (AA)</td>
 </tr>
 <tr>
-<td><strong>The chat list is not announced as intended, and screen-reader testing is partial.</strong> A pass with VoiceOver on macOS confirmed the project dialog takes focus and keeps it, and that a streaming reply is read once when it finishes rather than a token at a time. The chat list did <strong>not</strong> announce as the markup intends, and that is unresolved — the <code>nav</code>, list semantics and <code>aria-current</code> are present, so the fault is in how they are exposed rather than missing. No testing has been done with NVDA, JAWS or Orca, so Windows and Linux behaviour is unverified.</td>
-<td>Two paths are known good on one reader; the chat list is known bad on it; the rest is reasoned from the markup.</td>
+<td><strong>The chat list has been changed to fix an announcement fault, and the change has not been confirmed with a screen reader.</strong> A pass with VoiceOver on macOS confirmed the project dialog takes focus and keeps it, and that a streaming reply is read once when it finishes rather than a token at a time. The chat list did <strong>not</strong> announce as the markup intends: the <code>nav</code>, list semantics and <code>aria-current</code> were all present, and the cause turned out to be that WebKit drops a list item&#39;s implicit role when the item is laid out with <code>display: flex</code>. That was changed in 1.6.1 and a test now holds the markup and the layout rule together — <strong>but no VoiceOver pass has been run since, so treat the chat list as unverified rather than fixed.</strong> No testing has been done with NVDA, JAWS or Orca, so Windows and Linux behaviour is unverified.</td>
+<td>Two paths are known good on one reader; the chat list is changed but unconfirmed; the rest is reasoned from the markup.</td>
 <td>4.1.2 (A)</td>
 </tr>
 </tbody></table>
-<h2>What we intend to do</h2>
-<p>In rough priority order:</p>
-<ol>
-<li>Find why the chat list does not announce under VoiceOver despite
-carrying the right roles, and fix it.</li>
-<li>Finish the labelling outside the chat view.</li>
-<li>Test with at least one screen reader per platform, and on the paths a first
-pass did not reach.</li>
-</ol>
+<h2>What is scheduled, and what is not</h2>
+<p><strong>Nothing below has a date.</strong> This section used to be a list of intentions in
+priority order, which read as a commitment. It was not one, and saying so is
+better than leaving it to be inferred from how long the list stayed unchanged.</p>
+<p><strong>Done since that list was written:</strong> the chat list&#39;s announcement fault was
+traced to WebKit dropping a flex item&#39;s list role, and the markup was changed in
+1.6.1. It is a fix in the sense that the cause was found and removed; it is not a
+verified fix, because confirming it needs a screen-reader pass that has not been
+run.</p>
+<p><strong>Not scheduled:</strong> screen-reader testing on Windows (NVDA, JAWS) or Linux
+(Orca), and a second VoiceOver pass covering the chat list and the paths the
+first one did not reach. This is a small project without access to those readers
+in a form that would make a pass meaningful, so the honest position is that the
+behaviour on those platforms is unknown and will stay unknown until it is
+tested. This page will be updated if that changes — including if it changes
+because someone tells us what they found.</p>
+<p><strong>Still open, and unchanged:</strong> labelling outside the chat view.</p>
 <p>Done in 1.5.3: keyboard shortcuts with an in-app reference; landmark roles and
 list structure; the live region retuned to announce a reply once it is whole
 rather than every token; text scaling to 200% with a spacing scale in <code>rem</code>

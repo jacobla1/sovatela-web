@@ -321,7 +321,7 @@ every piece, including the tools the installer brought with it.</p>
 </tr>
 <tr>
 <td>Windows</td>
-<td><strong>Not yet signed.</strong> SmartScreen will warn. Verify the SHA-256 before running the installer.</td>
+<td><strong>Not signed, and not planned.</strong> SmartScreen will warn. Verify the SHA-256 before running the installer.</td>
 </tr>
 <tr>
 <td>Linux</td>
@@ -344,7 +344,20 @@ against us. On Windows and Linux there is no equivalent yet, and the honest
 position is that the checksum detects corruption rather than establishing
 authorship. Signing those builds, or signing the checksum list, is the fix;
 both are open.</p>
-<p>Windows signing is a known gap and is tracked for a future release.</p>
+<p><strong>Windows signing is not planned.</strong> This is a decision, not a backlog item, and
+it is recorded here so nobody waits for it: a certificate that would satisfy
+SmartScreen is a recurring cost the publisher is not willing to carry for a free
+application distributed by one individual. If that changes, this page changes
+with it.</p>
+<p>So the SmartScreen warning on the Windows installer is permanent, and it is
+accurate: nobody has vouched for the publisher. The checksum is what you have,
+and what it proves is the paragraph above.</p>
+<p><strong>Linux packages are not signed either</strong>, and here the reason is different.
+Signing them costs nothing — a GPG key, no certificate authority — but almost
+nothing checks it: <code>dpkg -i</code> does not verify a signature on a standalone <code>.deb</code>,
+and an AppImage&#39;s signature is verified only if you go looking for it. What
+would carry real weight is a signed package repository or a signed
+<code>SHA256SUMS.txt</code>, both of which are free and neither of which is done yet.</p>
 <p><strong>Why we tell you to check rather than trust.</strong> The macOS build degrades to
 <em>unsigned</em> rather than failing if the signing certificate expires or its secrets
 go missing, and nothing in the build log flags it. A release could therefore
