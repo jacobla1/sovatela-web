@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- The site runs no JavaScript and loads nothing from anywhere else, so the
+       policy is the strictest one that still renders it: nothing is permitted
+       by default, images only from this origin, and inline styles because the
+       CSS is in the <style> block above rather than a file.
+
+       As a meta tag rather than a response header, because sovatela.eu is on
+       GitHub Pages and Pages cannot set headers. That costs three things a
+       header would give: `frame-ancestors` is ignored in meta form, and
+       `X-Content-Type-Options: nosniff` and a real `Referrer-Policy` header
+       have no meta equivalent at all. The referrer is set below by the one
+       mechanism that does work in markup. See TECHNICAL-SPEC.md § 7. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'" />
+  <!-- An outbound link to Scaleway or GitHub should not carry which page on a
+       privacy tool the reader came from. -->
+  <meta name="referrer" content="no-referrer" />
+  <title>Security note — terminal access — Sovatela</title>
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --border: #e4e6eb;
+      --accent: #5a37f0;
+      --accent-2: #6b4bff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #17181c;
+        --card: #1f2126;
+        --text: #ededed;
+        --muted: #b4b9c2;
+        --border: #2c2f36;
+        --accent: #7c5cff;
+        --accent-2: #8b6bff;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.65;
+    }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 40px 24px 80px; }
+    .back { display: inline-block; margin-bottom: 28px; color: var(--accent-2); font-size: 14px; text-decoration: none; }
+    .back:hover { text-decoration: underline; }
+    h1 { font-size: 30px; margin: 0 0 20px; letter-spacing: -0.02em; }
+    h2 { font-size: 20px; margin: 40px 0 12px; letter-spacing: -0.01em; }
+    h3 { font-size: 16px; margin: 28px 0 10px; }
+    p, li { font-size: 15.5px; }
+    a { color: var(--accent-2); }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.9em;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 1px 5px;
+    }
+    pre {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      overflow-x: auto;
+    }
+    pre code { background: none; border: 0; padding: 0; }
+    blockquote {
+      margin: 20px 0;
+      padding: 2px 18px;
+      border-left: 3px solid var(--accent);
+      color: var(--muted);
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 14.5px; margin: 20px 0; display: block; overflow-x: auto; }
+    th, td { padding: 9px 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+    th { font-weight: 600; }
+    hr { border: 0; border-top: 1px solid var(--border); margin: 36px 0; }
+    footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; line-height: 1.7; }
+    footer a { color: var(--accent-2); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/">← Sovatela</a>
+    <h1>Security note — terminal access (<code>claude-glm</code>)</h1>
+<p><strong>Date:</strong> 2026-08-30
+<strong>Component:</strong> the optional <em>Terminal access</em> feature (<code>claude-glm</code>), present in
+Sovatela <strong>1.2.0 through 1.6.0</strong>
+<strong>Not affected:</strong> the Sovatela desktop application itself. Nothing here applies
+to anyone who did not use <em>Settings → Advanced → Terminal access</em>.
+<strong>Fixed in:</strong> <strong>1.6.1</strong>, published 2026-09-01, which rewrites the launcher.
+<strong>Updating does not repair an installation you already have.</strong> The launcher lives
+outside the application, nothing replaces it on its own, and the key was already
+exposed before you updated — so the steps below apply to everyone who used the
+feature, including after installing 1.6.1.</p>
+<hr>
+<h2>What v1.6.0 actually shipped</h2>
+<p><strong>Terminal access is enabled in the public 1.6.0 release, with all three defects
+present.</strong> <code>SHOW_TERMINAL_ACCESS</code> is <code>true</code> at <code>src/lib/KeyPage.svelte:48</code> and the
+backend runs the installer with no availability check.</p>
+<p>An earlier draft of this note said the feature was &quot;withdrawn in 1.6.0&quot; and that
+the shipped interface hides it while the backend refuses installation. <strong>That was
+false.</strong> The withdrawal was written after 1.6.0 was published, in an uncommitted
+working copy that was later discarded when the work moved to the private
+repository. It never reached a commit, let alone a release. The claim was written
+from what the working tree said rather than from what the tag contains, and it is
+exactly the kind of defect — a document asserting a protection that does not
+exist — that the review this note responds to was commissioned to find.</p>
+<h2>Who this affects</h2>
+<p><strong>Unknown, and it cannot be made known.</strong> Sovatela has no telemetry by design, so
+there is no way to establish who installed the terminal integration or whether
+any key was misused.</p>
+<p>An earlier draft argued from download counts that the defects &quot;reached no users&quot;.
+That argument does not hold: download figures cannot distinguish a person from a
+scanner, cannot see who went on to install the terminal integration, and cannot
+support a negative claim about exposure. It has been withdrawn.</p>
+<h2>If you used terminal access</h2>
+<p>Three things, in this order.</p>
+<p><strong>1 · Change your Scaleway API key.</strong> Not because it is known to have leaked —
+because you cannot tell whether it did, and neither can we. Every <code>claude-glm</code>
+session in every released version has the key in Claude Code&#39;s environment, and in
+every command, hook and MCP server it starts. Create a new key in the
+<a href="https://console.scaleway.com/iam/api-keys">Scaleway IAM console</a>, delete the old
+one, and put the new one into Sovatela under <em>Settings → Scaleway API key</em>. If you
+set a separate terminal key, replace that one too.</p>
+<p><strong>2 · Replace or remove the launcher.</strong> The one on your disk is not touched by
+updating, so it keeps behaving as described until you act on it. Either run
+<em>Settings → Advanced → Terminal access</em> in 1.6.1, which installs the rewritten
+launcher over it, or remove it as below. If you are unsure, remove it: nothing
+else depends on it. Close any open <code>claude-glm</code> session first — unsaved work in
+it is lost otherwise.</p>
+<p><strong>Stop the proxy, by what it is and not by the number in <code>litellm.pid</code>.</strong>
+Do not use a <code>kill &quot;$(cat …/litellm.pid)&quot;</code> command you may have saved from
+the old documentation; see issue 3 for why.</p>
+<pre><code class="language-sh"># macOS and Linux
+pkill -f &#39;claude-glm/venv/bin/litellm&#39; || pkill -f &#39;claude-glm/litellm.yaml&#39;
+</code></pre>
+<pre><code class="language-powershell"># Windows. Not `Stop-Process -Name litellm`, which stops every LiteLLM on the
+# machine, including one you run for something else.
+Get-CimInstance Win32_Process |
+  Where-Object { $_.CommandLine -like &#39;*claude-glm*litellm*&#39; } |
+  ForEach-Object { Stop-Process -Id $_.ProcessId }
+</code></pre>
+<p><strong>Then remove the files.</strong></p>
+<pre><code class="language-sh"># macOS
+rm -rf ~/.config/claude-glm
+rm -f  ~/bin/claude-glm
+
+# Linux
+rm -rf ~/.config/claude-glm
+rm -f  ~/.local/bin/claude-glm
+</code></pre>
+<pre><code class="language-powershell"># Windows
+Remove-Item -Recurse -Force &quot;$env:USERPROFILE\.claude-glm&quot;
+Remove-Item -Force &quot;$env:USERPROFILE\bin\claude-glm.cmd&quot;
+</code></pre>
+<p>The installer may also have appended <code>export PATH=&quot;$HOME/bin:$PATH&quot;</code> to your
+shell profile, and only if no line there already mentioned <code>HOME/bin</code>. Remove
+that line only if it is exactly that and you do not want <code>~/bin</code> on your <code>PATH</code>
+at all — a longer line containing other directories is yours, not ours, and
+deleting it would break unrelated tools.</p>
+<p><strong>3 · Check your Scaleway usage</strong> for the period you were using <code>claude-glm</code>, for
+requests you do not recognise.</p>
+<p>Chats, projects, memory and settings are unaffected and need no action.</p>
+<h2>The issues</h2>
+<h3>1 · The Scaleway key was placed in Claude Code&#39;s environment</h3>
+<p>The launcher exported <code>SCW_SECRET_KEY</code> so the LiteLLM proxy could read it, and
+then started Claude Code with <code>exec env VAR=… claude</code>. <code>env</code> without <code>-i</code>
+preserves the environment it was given, so the key was still set in Claude
+Code&#39;s process — and therefore in every process Claude Code started: shell
+commands, package installers, hooks, MCP servers, and any script in a repository
+it was working on.</p>
+<p><strong>Why it matters.</strong> Claude Code is an agent whose ordinary job is running
+commands from repositories it did not write. Any of those commands could read
+<code>SCW_SECRET_KEY</code> and send it anywhere. A prompt injection in a file it read, or
+a <code>postinstall</code> script in a dependency, was enough. No exploitation is known.</p>
+<p>The key is billable, so the practical consequence is unauthorised use of your
+Scaleway account.</p>
+<p>This contradicted a promise the documentation made in as many words: that your
+keys are sent only to the provider they belong to.</p>
+<h3>2 · The launcher trusted whatever was listening on <code>127.0.0.1:4000</code></h3>
+<p>Before starting its own proxy, the launcher sent an authenticated request to
+<code>127.0.0.1:4000</code> and treated any success as proof its proxy was already running.
+A process that bound that port first would receive the proxy token in that
+request and could then accept everything Claude Code sent afterwards — your
+prompts and whatever repository context it gathered — and return whatever it
+liked as model output.</p>
+<p>Loopback is machine-wide, so on a shared or multi-user computer this did not
+require any privilege: any local account could bind the port first.</p>
+<h3>3 · The published stop command could kill an unrelated program</h3>
+<p>The app and the documentation said to run
+<code>kill &quot;$(cat ~/.config/claude-glm/litellm.pid)&quot;</code>. A PID file records the number
+a process had when it started, and operating systems reuse those numbers. If the
+proxy had exited without cleaning up — a crash, a reboot — that number belonged
+to something else by then, and the command stopped it without checking: an
+editor, a database, a build, along with any unsaved work in it.</p>
+<p>This one affects you whether or not you still use <code>claude-glm</code>, because the
+command may be in your shell history or your own notes. <strong>Delete it from both.</strong>
+The replacement — which identifies the proxy by the configuration path only this
+app&#39;s proxy runs with, so a recycled process id cannot match it — is under
+<em>If you used terminal access</em>, step 2, above.</p>
+<hr>
+<h2>What has changed</h2>
+<p><strong>In 1.6.0 and every earlier version, nothing has changed and nothing will.</strong>
+Those releases stay exactly as published: the feature is enabled, the installer
+runs, and all three defects are present.</p>
+<p><strong>1.6.1 rewrites the launcher — and installing it repairs nothing by itself.</strong>
+Sovatela has no automatic updater and no background channel by design, so a
+launcher already on a machine keeps behaving as described above until you replace
+it by running setup again, or remove it. And a key that was in an agent&#39;s
+environment stays exposed whatever you install afterwards: <strong>rotate it</strong>.</p>
+<p>What 1.6.1 does add is that it knows. If it finds a launcher from before 1.6.1,
+or finds that this machine ever had one, <em>Settings → Advanced</em> says so and
+repeats the rotation and cleanup steps rather than reporting a clean machine.</p>
+<p><strong>The launcher has been rewritten.</strong> Each issue above is
+addressed, and each is checked by a script that runs the launcher the installer
+actually embeds against a stub keychain, a stub proxy and a stub agent
+(<code>deploy/claude-glm/verify-launcher.sh</code>, run as part of the test suite):</p>
+<ul>
+<li>The Scaleway key is never exported into the launcher&#39;s environment. It is
+exported inside one subshell, which becomes the proxy. The agent&#39;s environment
+is additionally stripped of provider secrets that were already in the user&#39;s
+shell — someone using Scaleway&#39;s own CLI commonly has one.</li>
+<li>The proxy is always this session&#39;s own child, on a port the operating system
+had just reported free. A listener that is already there is never adopted, and
+the process holding the port is checked against the child&#39;s own id. There is
+no fixed port to squat and no PID file to go stale; the proxy stops when the
+session does.</li>
+<li>The proxy is installed into a virtual environment inside the app&#39;s own config
+directory, with the resolved versions recorded in a lock file, instead of
+<code>uv tool install --force</code> replacing a LiteLLM the user had installed for other
+work. Anything the installer overwrites is backed up first.</li>
+</ul>
+<p>All three launchers are verified by execution: macOS on a real machine, Linux in a
+container (<code>verify-linux-docker.sh</code>), and Windows on a <code>windows-latest</code> runner
+(<code>.github/workflows/windows-terminal-access.yml</code>). All three are in 1.6.1.</p>
+<p><strong>On macOS the rewrite has been installed and used</strong>, in a real session: the
+Scaleway key was confirmed present in the proxy&#39;s environment and absent from
+Claude Code&#39;s, the proxy ran on a per-session port, and the process holding that
+port was the launcher&#39;s own child.</p>
+<p><strong>Linux is verified too</strong>, in a container: <code>verify-linux-docker.sh</code> runs the real
+installer and the real LiteLLM, then has a stub agent record its own environment
+and read the proxy&#39;s through <code>/proc</code>. The key is in the proxy&#39;s and in nothing
+else. It is enabled.</p>
+<p><strong>Windows is verified too</strong>, on a <code>windows-latest</code> runner
+(<code>.github/workflows/windows-terminal-access.yml</code>): the real <code>.ps1</code> installs, the
+launcher it writes is driven, and the agent&#39;s environment is then checked for
+both keys seeded into Credential Manager, a key planted in the calling shell, and
+nine provider-secret variable names. None is present, and a hostile listener
+planted on 4000 beforehand was never contacted. It is enabled.</p>
+<p>That job earned its place — the first run failed, on a check that was too strict
+rather than too loose. The launcher compared the listening socket&#39;s owner against
+the pid <code>Start-Process</code> returned; on Windows that pid is the console-script shim
+while python.exe binds the port, so the launcher refused its own proxy and sent
+nothing. Safe, and unusable. A listener is now ours if it descends from the
+process we started.</p>
+<p>Its launcher does still differ in mechanism: the key is set and cleared around a
+single <code>Start-Process</code> call, because the parameter that would avoid that needs a
+PowerShell version Windows does not ship. The window is one call wide and the
+agent starts long after it, which the CI job confirms — but it is a weaker
+construction than the other two, and it is recorded here rather than smoothed
+over.</p>
+<h2>How this was found</h2>
+<p>By an external review of v1.6.0, commissioned by the publisher and carried out
+during August 2026 — after the release was published, not before it. The three
+issues were reported as confirmed findings with reproduction steps.</p>
+<p><strong>There is no known exploitation.</strong> That is not the same as no exploitation: the
+application has no telemetry, so there is nothing to look in. See <em>Who this
+affects</em>.</p>
+<h2>Contact</h2>
+<p><code>info@anaubi.com</code> — see <a href="/security">SECURITY.md</a> for what to expect.</p>
+
+    <footer>
+      <p>
+        <a href="/privacy">Privacy</a> ·
+        <a href="/security">Security</a> ·
+        <a href="/accessibility">Accessibility</a> ·
+        <a href="/security-note-claude-glm">undefined</a>
+      </p>
+      <p>
+        Published by <strong>Jacob Bergmann Larsen</strong> ·
+        <a href="mailto:info@anaubi.com">info@anaubi.com</a> ·
+        <a href="https://github.com/jacobla1/sovatela">Source on GitHub</a>
+      </p>
+    </footer>
+  </div>
+</body>
+</html>

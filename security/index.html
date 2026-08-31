@@ -3,6 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- The site runs no JavaScript and loads nothing from anywhere else, so the
+       policy is the strictest one that still renders it: nothing is permitted
+       by default, images only from this origin, and inline styles because the
+       CSS is in the <style> block above rather than a file.
+
+       As a meta tag rather than a response header, because sovatela.eu is on
+       GitHub Pages and Pages cannot set headers. That costs three things a
+       header would give: `frame-ancestors` is ignored in meta form, and
+       `X-Content-Type-Options: nosniff` and a real `Referrer-Policy` header
+       have no meta equivalent at all. The referrer is set below by the one
+       mechanism that does work in markup. See TECHNICAL-SPEC.md § 7. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'" />
+  <!-- An outbound link to Scaleway or GitHub should not carry which page on a
+       privacy tool the reader came from. -->
+  <meta name="referrer" content="no-referrer" />
   <title>Security — Sovatela</title>
   <style>
     :root {
@@ -271,11 +286,18 @@ bundled components and their licences are enumerated in
 <code>THIRD-PARTY-LICENSES.md</code>.</p>
 <p><strong>Terminal access is the exception, and it is opt-in.</strong> Setting up
 <code>claude-glm</code> under <em>Settings → Advanced</em> does something the app otherwise never
-does: it fetches and executes an installer from <code>astral.sh</code> to obtain <code>uv</code> (if
-you don&#39;t already have it), installs the LiteLLM proxy from PyPI, and adds a
-launcher directory to your <code>PATH</code>. None of that is pinned by a lockfile or
-enumerated above, and both hosts are US-based — so setup reaches outside Europe
-even though chat traffic afterwards does not. Nothing happens until you press
+does: it downloads <code>uv</code> from GitHub and the LiteLLM proxy from PyPI into a
+folder belonging to the app, and adds a launcher directory to your <code>PATH</code>. Both
+hosts are US-based, so setup reaches outside Europe even though chat traffic
+afterwards does not.</p>
+<p><strong>Every download is verified against a checksum shipped inside the
+application</strong> — <code>uv</code> against a hard-coded digest per platform, and every Python
+package against <code>requirements.lock</code>, which records content hashes rather than
+version numbers, installed with <code>--require-hashes</code>. Nothing that fails a check is
+unpacked or executed. What that establishes is that the bytes are the ones we
+chose; it says nothing about whether those projects are trustworthy, which we
+cannot verify and do not claim to — see § 7.2 of the technical specification.
+Nothing happens until you press
 the button — and the app asks again, natively, naming what is about to happen,
 before anything is fetched. That confirmation is in the backend rather than the
 interface on purpose: a button in a web view is a check the web view could skip,
@@ -334,23 +356,49 @@ published artifact before every release.</p>
 <h2>What this does not protect against</h2>
 <p>Stated plainly, because a security page that only lists strengths is not useful:</p>
 <ul>
-<li><strong>A compromised machine.</strong> Malware with your user privileges can read your
-credential store and your history folder. Nothing in the app changes that.</li>
-<li><strong>Your providers.</strong> Everything you send to Scaleway, or to a search or image
+<li><p><strong>A compromised machine.</strong> Malware with your user privileges can read your
+credential store and your history folder. Nothing in the app changes that.</p>
+</li>
+<li><p><strong>Your providers.</strong> Everything you send to Scaleway, or to a search or image
 provider, is subject to their handling. The app cannot enforce anything on
-their side.</li>
-<li><strong>A history folder in a synced drive.</strong> If you point history at a cloud-synced
+their side.</p>
+</li>
+<li><p><strong>A history folder in a synced drive.</strong> If you point history at a cloud-synced
 folder, that provider holds your conversations, with their retention and
-their jurisdiction.</li>
-<li><strong>Model output.</strong> Generated text and code are unverified. Artifacts are
-sandboxed against the <em>app</em>, not audited for correctness.</li>
-<li><strong>Terminal access (<code>claude-glm</code>).</strong> Optional, off until you install it, under
+their jurisdiction.</p>
+</li>
+<li><p><strong>Model output.</strong> Generated text and code are unverified. Artifacts are
+sandboxed against the <em>app</em>, not audited for correctness.</p>
+</li>
+<li><p><strong>Terminal access (<code>claude-glm</code>).</strong> Optional, off until you install it, under
 Settings → Advanced. It runs Claude Code — an agent that executes commands,
 installs packages, and fetches pages, any of which can reach hosts outside
 Europe. Its sovereignty properties are narrower than the app&#39;s, and the
 section says so next to the button. It is also unofficial: Anthropic&#39;s
 documentation states it doesn&#39;t support routing Claude Code to non-Claude
-models through any gateway.</li>
+models through any gateway. Its launcher was rewritten after the August 2026
+review, and each platform&#39;s launcher is verified by execution — macOS on a
+machine, Linux in a container, Windows on a CI runner. <strong>None of that is in a
+released version</strong>; see the
+security note, which records what
+was wrong and what to do if you installed it before that.</p>
+</li>
+<li><p><strong>Single-item deletions, if the renderer is ever compromised.</strong> Deleting a
+chat, and deleting all chats, projects and memory, confirm natively in the
+backend, so the dialog cannot be skipped by whatever called the command.
+Deleting one project, one remembered fact or one document template, removing a
+stored key, and resetting the usage tally do not: their confirmations are in
+the interface.</p>
+<p><strong>These are not reversible.</strong> An earlier version of this section called them
+so, which was wrong — a project&#39;s instructions and files, a remembered fact and
+the usage history are gone once deleted, with no undo in the app. What is true
+is narrower: each affects one item rather than the whole store, and a native
+dialog in front of every one of them would teach people that these dialogs are
+noise, which would make the two that matter <em>less</em> safe.</p>
+<p>So this is an <strong>accepted risk, not a closed finding</strong>: a renderer compromise
+could destroy settings-level data without asking. The boundary is drawn at
+scale rather than at recoverability, and that is a judgement worth disputing.</p>
+</li>
 </ul>
 <h2>Security history</h2>
 <p>This project has been reviewed repeatedly, and the findings are published rather
@@ -359,6 +407,17 @@ than filed away:</p>
 <li><strong>Current residual risks</strong> — Technical specification §
 7, and the <em>Known limitations</em>
 section of each release&#39;s notes</li>
+<li><strong>Risks accepted rather than fixed</strong>, each with what it would take and why the
+trade was made — Technical specification §
+7.2</li>
+<li><strong>Security notes</strong> —
+Terminal access (<code>claude-glm</code>), 2026-08-30:
+the launcher placed the Scaleway key in Claude Code&#39;s environment, adopted any
+listener on <code>127.0.0.1:4000</code> as its proxy, and published a stop command that
+could kill an unrelated process. Found by external review before the feature
+had reached anyone, so it is recorded as a note rather than issued as an
+advisory — the reasoning is in the note. Rewritten and re-enabled on all three
+platforms; an installation made before that is not repaired by updating</li>
 <li><strong>Accessibility defects</strong>, stated rather than glossed —
 <a href="/accessibility">Accessibility statement</a></li>
 <li><strong>Security and robustness reviews</strong> (July 2026) and the mitigation plan that
@@ -386,7 +445,8 @@ one claim on this page that matters most, and it is verifiable from outside.</p>
       <p>
         <a href="/privacy">Privacy</a> ·
         <a href="/security">Security</a> ·
-        <a href="/accessibility">Accessibility</a>
+        <a href="/accessibility">Accessibility</a> ·
+        <a href="/security-note-claude-glm">undefined</a>
       </p>
       <p>
         Published by <strong>Jacob Bergmann Larsen</strong> ·

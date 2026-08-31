@@ -3,6 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- The site runs no JavaScript and loads nothing from anywhere else, so the
+       policy is the strictest one that still renders it: nothing is permitted
+       by default, images only from this origin, and inline styles because the
+       CSS is in the <style> block above rather than a file.
+
+       As a meta tag rather than a response header, because sovatela.eu is on
+       GitHub Pages and Pages cannot set headers. That costs three things a
+       header would give: `frame-ancestors` is ignored in meta form, and
+       `X-Content-Type-Options: nosniff` and a real `Referrer-Policy` header
+       have no meta equivalent at all. The referrer is set below by the one
+       mechanism that does work in markup. See TECHNICAL-SPEC.md § 7. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'" />
+  <!-- An outbound link to Scaleway or GitHub should not carry which page on a
+       privacy tool the reader came from. -->
+  <meta name="referrer" content="no-referrer" />
   <title>Accessibility statement — Sovatela</title>
   <style>
     :root {
@@ -76,7 +91,7 @@
   <div class="wrap">
     <a class="back" href="/">← Sovatela</a>
     <h1>Accessibility statement</h1>
-<p>Applies to: Sovatela v1.6.0 · Last reviewed: 2026-08-29</p>
+<p>Applies to: Sovatela v1.6.1 · Last reviewed: 2026-08-29</p>
 <h2>Our position</h2>
 <p>We want Sovatela to be usable by everyone. It currently <strong>is not fully
 accessible</strong>, and this statement says where it falls short rather than claiming
@@ -256,7 +271,8 @@ legally required to fix them.</p>
       <p>
         <a href="/privacy">Privacy</a> ·
         <a href="/security">Security</a> ·
-        <a href="/accessibility">Accessibility</a>
+        <a href="/accessibility">Accessibility</a> ·
+        <a href="/security-note-claude-glm">undefined</a>
       </p>
       <p>
         Published by <strong>Jacob Bergmann Larsen</strong> ·
