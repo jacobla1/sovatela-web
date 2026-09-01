@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- The site runs no JavaScript and loads nothing from anywhere else, so the
+       policy is the strictest one that still renders it: nothing is permitted
+       by default, images only from this origin, and inline styles because the
+       CSS is in the <style> block above rather than a file.
+
+       As a meta tag rather than a response header, because sovatela.eu is on
+       GitHub Pages and Pages cannot set headers. That costs three things a
+       header would give: `frame-ancestors` is ignored in meta form, and
+       `X-Content-Type-Options: nosniff` and a real `Referrer-Policy` header
+       have no meta equivalent at all. The referrer is set below by the one
+       mechanism that does work in markup. See TECHNICAL-SPEC.md § 7. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'" />
+  <!-- An outbound link to Scaleway or GitHub should not carry which page on a
+       privacy tool the reader came from. -->
+  <meta name="referrer" content="no-referrer" />
+  <title>Terms of use — Sovatela</title>
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --border: #e4e6eb;
+      --accent: #5a37f0;
+      --accent-2: #6b4bff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #17181c;
+        --card: #1f2126;
+        --text: #ededed;
+        --muted: #b4b9c2;
+        --border: #2c2f36;
+        --accent: #7c5cff;
+        --accent-2: #8b6bff;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.65;
+    }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 40px 24px 80px; }
+    .back { display: inline-block; margin-bottom: 28px; color: var(--accent-2); font-size: 14px; text-decoration: none; }
+    .back:hover { text-decoration: underline; }
+    h1 { font-size: 30px; margin: 0 0 20px; letter-spacing: -0.02em; }
+    h2 { font-size: 20px; margin: 40px 0 12px; letter-spacing: -0.01em; }
+    h3 { font-size: 16px; margin: 28px 0 10px; }
+    p, li { font-size: 15.5px; }
+    a { color: var(--accent-2); }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.9em;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 1px 5px;
+    }
+    pre {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      overflow-x: auto;
+    }
+    pre code { background: none; border: 0; padding: 0; }
+    blockquote {
+      margin: 20px 0;
+      padding: 2px 18px;
+      border-left: 3px solid var(--accent);
+      color: var(--muted);
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 14.5px; margin: 20px 0; display: block; overflow-x: auto; }
+    th, td { padding: 9px 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+    th { font-weight: 600; }
+    hr { border: 0; border-top: 1px solid var(--border); margin: 36px 0; }
+    footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; line-height: 1.7; }
+    footer a { color: var(--accent-2); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/">← Sovatela</a>
+    <h1>Terms of use</h1>
+<p>Last updated: 2026-09-01 · Applies to: Sovatela v1.6.1</p>
+<blockquote>
+<p><strong>How this was written, since you are entitled to know.</strong> By the publisher,
+not by a lawyer. It is short on purpose. An earlier version ran to fourteen
+sections and spent much of them limiting the publisher&#39;s liability — the part
+of such a document that most needs a lawyer, and the part a consumer is least
+likely to be bound by. Rather than publish unreviewed exclusions, this page
+states what is true about the arrangement and leaves your rights where the law
+puts them. What was dropped, and why, is recorded in the repository.</p>
+</blockquote>
+<hr>
+<h2>1. Who publishes Sovatela</h2>
+<p><strong>Jacob Bergmann Larsen</strong> · <code>info@anaubi.com</code></p>
+<p>Sovatela is published by an individual rather than a company, so there is no
+company registration or VAT number. A postal address is available on request to
+that address, and to any authority that asks for it.</p>
+<h2>2. What you are agreeing to</h2>
+<p>Installing or using Sovatela means accepting this page as it stood for the
+version you installed. There is no updater, and nothing here reaches a copy
+already on your machine — so a later change to this page cannot alter the terms
+you already have. Each release carries its own.</p>
+<p>If you do not accept it, do not install it.</p>
+<h2>3. What Sovatela is</h2>
+<p>A <strong>client application</strong> that runs on your computer. It provides no AI service
+of its own, has no server component, and has no account system.</p>
+<p>Everything the model does comes from <strong>providers you choose and pay for
+directly</strong>, using your own accounts with them — Scaleway for the model, and
+whichever search or image provider you configure. Their terms govern their
+service, and Sovatela is not a party to that relationship.</p>
+<p>If a provider changes its prices, its models, or its availability, this software
+has no control over it and no advance notice of it.</p>
+<h2>4. What it costs, and what you may be billed for</h2>
+<p><strong>Sovatela is free.</strong> No purchase, no subscription, no advertising, no donations,
+no paid support. The publisher receives no money from you.</p>
+<p><strong>Your provider bills you directly</strong>, and that is the real cost of using this
+software. Charges you incur are between you and that provider — including
+charges you did not expect, whether from a mistake of your own, a runaway
+request, a defect in this software, or a change in the provider&#39;s pricing.</p>
+<p>The cost figures shown in the app are <strong>estimates for guidance</strong>, calculated from
+published prices that can go out of date. Your provider&#39;s invoice is the
+authoritative number, and if the two disagree, the invoice is right.</p>
+<p>If an unexpected bill would matter to you, set a spending limit with your
+provider. That control is on their side, not this one.</p>
+<h2>5. Your data, and your keys</h2>
+<p><strong>Your conversations, files and generated output are yours.</strong> The publisher
+claims no rights over them and receives no copy of them.</p>
+<p><strong>They live on your device, and backing them up is yours to do.</strong> Conversations,
+projects and remembered facts are files on your computer. There is no server
+copy and no backup — if the folder is deleted, a disk fails, or a sync client
+removes it, the data is gone and nobody can restore it. That is a direct
+consequence of the no-server design rather than an oversight, which is why
+Uninstall and data deletion tells you where the folder is, so you
+can copy it.</p>
+<p><strong>Your API keys are yours to protect.</strong> They are held in your operating system&#39;s
+credential store; anyone with access to your unlocked device can use them. What
+the app stores and what it sends is described in the
+<a href="/privacy">privacy policy</a>.</p>
+<h2>6. Using it responsibly</h2>
+<p>Do not use Sovatela to break the law or to infringe anyone&#39;s rights, and follow
+the terms of the providers you connect it to — they can close your account, and
+the publisher cannot intervene if they do.</p>
+<p><strong>Model output is generated, not verified.</strong> It can be wrong, biased, outdated
+or fabricated, and it can be wrong with complete confidence. Check anything you
+intend to act on, and do not treat it as professional advice. Two cases worth
+keeping in mind:</p>
+<ul>
+<li><strong>Quick answers</strong> mode deliberately skips the model&#39;s reasoning step in
+exchange for speed, at a real cost to accuracy on numbers, dates and
+multi-step questions. Replies produced that way are marked in the interface.</li>
+<li><strong>Artifacts</strong> are generated code. They run sandboxed, but the code itself is
+unreviewed and may be wrong.</li>
+</ul>
+<p><strong>Terminal access carries its own risks</strong>, described where it lives: it runs a
+coding agent on your machine that executes commands and modifies files. The
+security note records defects
+found in it and what to do if you used it before 1.6.1.</p>
+<p>No minimum age is set here, because there would be no mechanism behind one — the
+app has no account and verifies nothing. Using it requires a provider account,
+and providers set their own eligibility rules.</p>
+<h2>7. Licence and warranty</h2>
+<p>The source is published under the MIT Licence, which governs it,
+including its warranty disclaimer. Bundled third-party components keep their own
+licences — see <code>THIRD-PARTY-LICENSES.md</code>.</p>
+<p>The software is provided <em>as is</em>. It is free, it is maintained by one person, and
+it may contain defects. The ones that have been found are recorded in
+<code>CHANGELOG.md</code> and, where they affect security, in
+<a href="/security"><code>SECURITY.md</code></a> — including the embarrassing ones.</p>
+<p><strong>Your statutory rights are unaffected.</strong> If you are a consumer, the law of your
+country gives you rights that a page like this cannot remove, and nothing here
+attempts to.</p>
+<h2>8. If something goes wrong, tell the publisher</h2>
+<p><strong>Complaints come here:</strong> <code>info@anaubi.com</code>. Not to a form, and not to nobody.</p>
+<p>A complaint, a bug, an accessibility barrier or a security report is answered by
+the publisher — <a href="/security"><code>SECURITY.md</code></a> sets out what to expect for
+security reports and how to send one privately. Being free software maintained by
+one individual is a reason a reply may take longer. It is not a reason for there
+to be no reply.</p>
+<h2>9. Names and trademarks</h2>
+<p>This is an independent project, <strong>not affiliated with, sponsored by, or endorsed
+by</strong> Z.ai, Scaleway, Anthropic, Qwant, Black Forest Labs, Linkup, Mistral,
+OVHcloud, or anyone else named. All names and marks belong to their owners and
+are used descriptively, to say what the software connects to.</p>
+<p>The <code>claude-glm</code> integration is unofficial; Anthropic&#39;s documentation states it
+does not support routing Claude Code to non-Claude models. Its launcher has known
+defects in every released version of that integration, 1.2.0 through 1.6.0 — see
+the security note. A launcher
+installed before the 1.6.1 rewrite is not repaired by installing a newer version
+of this application, because nothing here updates itself.</p>
+<h2>10. Changes to this page</h2>
+<p>A material change gets a new date above and a note in the release notes. This
+page describes the release named at the top; earlier versions are in the public
+repository&#39;s history and are available on request.</p>
+<h2>11. Governing law</h2>
+<p>Danish law, and the courts of Denmark. If you are a consumer resident elsewhere
+in the EU, this does not deprive you of the protection of the mandatory rules of
+your own country&#39;s law, nor of the right to bring proceedings there.</p>
+
+    <footer>
+      <p>
+        <a href="/privacy">Privacy</a> ·
+        <a href="/terms">Terms of use</a> ·
+        <a href="/security">Security</a> ·
+        <a href="/accessibility">Accessibility</a> ·
+        <a href="/security-note-claude-glm">Terminal access note</a>
+      </p>
+      <p>
+        Published by <strong>Jacob Bergmann Larsen</strong> ·
+        <a href="mailto:info@anaubi.com">info@anaubi.com</a> ·
+        <a href="https://github.com/jacobla1/sovatela">Source on GitHub</a>
+      </p>
+    </footer>
+  </div>
+</body>
+</html>

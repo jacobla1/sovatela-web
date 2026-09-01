@@ -122,6 +122,40 @@ any key was misused.</p>
 That argument does not hold: download figures cannot distinguish a person from a
 scanner, cannot see who went on to install the terminal integration, and cannot
 support a negative claim about exposure. It has been withdrawn.</p>
+<h2>How this notice travels, and who it cannot reach</h2>
+<p>Sovatela has no automatic updater and no background network activity, by design,
+and that is not being changed to deliver a security notice. <em>Check for updates</em>
+is a button you press, it first appeared in <strong>1.5.0</strong>, and it only offers a link
+when a newer version exists.</p>
+<table>
+<thead>
+<tr>
+<th>If you are running</th>
+<th>Will the application tell you?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>1.2.0 – 1.4.0</strong></td>
+<td><strong>No. There is no route at all.</strong> These builds have no update check. Nothing in the software will ever mention this, however long you use it.</td>
+</tr>
+<tr>
+<td><strong>1.5.0 – 1.6.0</strong></td>
+<td>Only if you press <em>Check for updates</em>. 1.6.1 exists, so the button now offers a link, and that link opens this notice.</td>
+</tr>
+<tr>
+<td><strong>1.6.1 or later</strong></td>
+<td>Yes, if this machine ever had an earlier launcher — <em>Settings → Advanced</em> says so and repeats the steps below.</td>
+</tr>
+</tbody></table>
+<p>For the first row there is no in-app remedy and no way to manufacture one: those
+copies can be reached only by this page, by the
+<a href="https://github.com/jacobla1/sovatela/security/advisories/GHSA-jpv9-3mvc-5v5c">advisory</a>,
+by the release notes and by the download page. <strong>If you are running 1.2.0 to
+1.4.0 and someone sent you here, that is the mechanism working — it is the only
+one there is.</strong></p>
+<p>That limitation is stated here rather than left to be discovered, because a
+notice that quietly reaches most people reads, to the people it missed, exactly
+like a notice that was never published.</p>
 <h2>If you used terminal access</h2>
 <p>Three things, in this order.</p>
 <p><strong>1 · Change your Scaleway API key.</strong> Not because it is known to have leaked —
@@ -281,6 +315,7 @@ affects</em>.</p>
     <footer>
       <p>
         <a href="/privacy">Privacy</a> ·
+        <a href="/terms">Terms of use</a> ·
         <a href="/security">Security</a> ·
         <a href="/accessibility">Accessibility</a> ·
         <a href="/security-note-claude-glm">Terminal access note</a>
