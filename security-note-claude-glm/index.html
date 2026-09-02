@@ -123,10 +123,18 @@ That argument does not hold: download figures cannot distinguish a person from a
 scanner, cannot see who went on to install the terminal integration, and cannot
 support a negative claim about exposure. It has been withdrawn.</p>
 <h2>How this notice travels, and who it cannot reach</h2>
-<p>Sovatela has no automatic updater and no background network activity, by design,
-and that is not being changed to deliver a security notice. <em>Check for updates</em>
-is a button you press, it first appeared in <strong>1.5.0</strong>, and it only offers a link
-when a newer version exists.</p>
+<p>Sovatela has no automatic updater and nothing that reaches a copy already
+installed, by design, and that is not being changed to deliver a security
+notice. <em>Check for updates</em> is a button you press, it first appeared in
+<strong>1.5.0</strong>, and it only offers a link when a newer version exists.</p>
+<p><strong>This is narrower than &quot;no background network activity&quot;, which an earlier
+revision of this page claimed twice.</strong> The app does make one call on its own: at
+launch it asks <em>your</em> Scaleway endpoint whether your key still works, which is
+what the coloured dot in the header reports. It carries your key and nothing
+else, it goes to your provider rather than to the publisher, and it is not a
+route to you — nothing comes back that could carry a notice. The claim that
+mattered here is that nothing reaches an installed copy, and that one holds.
+<a href="/security"><code>SECURITY.md</code></a> lists every call and when it is made.</p>
 <table>
 <thead>
 <tr>
@@ -247,9 +255,9 @@ app&#39;s proxy runs with, so a recycled process id cannot match it — is under
 Those releases stay exactly as published: the feature is enabled, the installer
 runs, and all three defects are present.</p>
 <p><strong>1.6.1 rewrites the launcher — and installing it repairs nothing by itself.</strong>
-Sovatela has no automatic updater and no background channel by design, so a
-launcher already on a machine keeps behaving as described above until you replace
-it by running setup again, or remove it. And a key that was in an agent&#39;s
+Sovatela has no automatic updater and nothing that reaches an installed copy by
+design, so a launcher already on a machine keeps behaving as described above
+until you replace it by running setup again, or remove it. And a key that was in an agent&#39;s
 environment stays exposed whatever you install afterwards: <strong>rotate it</strong>.</p>
 <p>What 1.6.1 does add is that it knows. If it finds a launcher from before 1.6.1,
 or finds that this machine ever had one, <em>Settings → Advanced</em> says so and

@@ -185,6 +185,19 @@ launches, which was also untrue: the connection check has always run at
 startup. That second error was found by capturing the app&#39;s own traffic
 (<code>qa/network-capture</code>), which is the check the end of this page recommends, and
 it was found the first time anyone ran it.</p>
+<h3>Opening a link</h3>
+<p>A link in a reply, or a button in Settings, is opened by asking Rust, which
+accepts <strong><code>https</code> and <code>http</code> only</strong> and refuses a URL carrying a username or
+password. The renderer does not hold the opener permission.</p>
+<p>Through 1.6.1 it did. Anything running in the renderer could hand the operating
+system a URL of any scheme, and a URL is not only an address: <code>file://</code> opens a
+local file in whatever is registered for it, and a custom scheme starts whatever
+program claimed it. That turned a rendering bug into a way to launch something.</p>
+<p><strong>What this does not stop:</strong> a compromised renderer can still open an ordinary
+web address, and an address can carry data in its query string. Narrowing the
+schemes removes the escalation, not the exfiltration; the protections that keep
+the renderer from being compromised in the first place are the CSP, DOMPurify
+and the isolated artifact frame above.</p>
 <h3>Web content is untrusted input</h3>
 <p>With web search on, the model chooses which page to read, so text on a page or
 in a search result reaches a model that also holds your conversation and — if
@@ -391,8 +404,10 @@ section says so next to the button. It is also unofficial: Anthropic&#39;s
 documentation states it doesn&#39;t support routing Claude Code to non-Claude
 models through any gateway. Its launcher was rewritten after the August 2026
 review, and each platform&#39;s launcher is verified by execution — macOS on a
-machine, Linux in a container, Windows on a CI runner. <strong>None of that is in a
-released version</strong>; see the
+machine, Linux in a container, Windows on a CI runner. <strong>That rewrite shipped
+in 1.6.1, and it does not reach a launcher already installed</strong> — the launcher
+sits outside the application and is replaced only by running setup again; see
+the
 security note, which records what
 was wrong and what to do if you installed it before that.</p>
 </li>

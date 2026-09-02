@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Sovatela releases</title>
+  <id>https://sovatela.eu/releases.atom</id>
+  <link rel="self" href="https://sovatela.eu/releases.atom"/>
+  <link rel="alternate" href="https://sovatela.eu/"/>
+  <updated>2026-09-02T00:00:00Z</updated>
+  <author><name>Jacob Bergmann Larsen</name></author>
+  <subtitle>New versions of Sovatela, including security releases. Nothing is collected from subscribing — this is a static file your reader fetches.</subtitle>
+  <entry>
+    <title>Sovatela 1.6.2</title>
+    <id>https://github.com/jacobla1/sovatela/releases/tag/v1.6.2</id>
+    <link rel="alternate" href="https://github.com/jacobla1/sovatela/releases/tag/v1.6.2"/>
+    <updated>2026-09-02T00:00:00Z</updated>
+    <summary>Sovatela 1.6.2 was released on 2026-09-02. Release notes and checksums are on the release page.</summary>
+  </entry>
+  <entry>
+    <title>Sovatela 1.6.1</title>
+    <id>https://github.com/jacobla1/sovatela/releases/tag/v1.6.1</id>
+    <link rel="alternate" href="https://github.com/jacobla1/sovatela/releases/tag/v1.6.1"/>
+    <updated>2026-09-01T00:00:00Z</updated>
+    <summary>Sovatela 1.6.1 was released on 2026-09-01. Release notes and checksums are on the release page.</summary>
+  </entry>
+  <entry>
+    <title>Sovatela 1.6.0</title>
+    <id>https://github.com/jacobla1/sovatela/releases/tag/v1.6.0</id>
+    <link rel="alternate" href="https://github.com/jacobla1/sovatela/releases/tag/v1.6.0"/>
+    <updated>2026-08-29T00:00:00Z</updated>
+    <summary>Sovatela 1.6.0 was released on 2026-08-29. Release notes and checksums are on the release page.</summary>
+  </entry>
+</feed>
