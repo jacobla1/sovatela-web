@@ -161,6 +161,11 @@ no remote asset loaded into the interface.</p>
 <td>Nothing. No query string, nothing about you or your machine. Only on a press</td>
 </tr>
 <tr>
+<td><strong>At launch, only if you switch it on</strong></td>
+<td><code>https://sovatela.eu/version.json</code></td>
+<td>The same: nothing. <em>Settings → About → Check for a new version when Sovatela starts</em> is off by default; enabling it makes this the second automatic call, and it is the only setting that adds one</td>
+</tr>
+<tr>
 <td><em>Settings → Usage →</em> <strong>Check for updated prices</strong></td>
 <td><code>raw.githubusercontent.com/jacobla1/sovatela/…/pricing.json</code></td>
 <td>The same — a static file, only on a press</td>
@@ -353,10 +358,50 @@ by different systems and both would have to be changed — but the same account
 controls both, so it is not independent either.</p>
 <p>On macOS this does not matter much, because notarization is the real check:
 Apple signs the ticket, and <code>spctl</code> verifies it against Apple rather than
-against us. On Windows and Linux there is no equivalent yet, and the honest
-position is that the checksum detects corruption rather than establishing
-authorship. Signing those builds, or signing the checksum list, is the fix;
-both are open.</p>
+against us.</p>
+<p><strong>Two further checks exist on releases built in the public repository.</strong> They
+are not on 1.6.2 or earlier, which were built privately; a release carries them
+if it has a <code>SHA256SUMS.txt.minisig</code> attached.</p>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>What it establishes</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Checksum</td>
+<td>the file is the file that was published</td>
+<td><code>shasum -a 256 -c SHA256SUMS.txt --ignore-missing</code></td>
+</tr>
+<tr>
+<td>Signature</td>
+<td>the publisher vouches for that list</td>
+<td><code>minisign -Vm SHA256SUMS.txt -P &lt;public key&gt;</code></td>
+</tr>
+<tr>
+<td>Attestation</td>
+<td>this commit and workflow produced the file</td>
+<td><code>gh attestation verify &lt;file&gt; --repo jacobla1/sovatela</code></td>
+</tr>
+</tbody></table>
+<p>The signature closes the gap named above: the list is no longer just a file
+sitting beside the installers it vouches for, because replacing it now requires
+the signing key rather than write access to the release. The public key is
+<code>minisign.pub</code> in the repository and is published on the download page.</p>
+<p>The attestation answers a question none of the others can, including
+notarization. Notarization says Apple scanned this binary and found no malware;
+it says nothing about which source produced it. An attestation binds the file to
+a commit and a workflow run, so &quot;this installer was built from the source you
+can read&quot; becomes checkable rather than asserted. It is why the build moved to
+the public repository: GitHub publishes attestations free for public
+repositories and requires Enterprise Cloud for private ones, so this was not
+available while the build was private.</p>
+<p><strong>None of this signs the Windows or Linux binaries themselves.</strong> A signature on
+the checksum list and an attestation on the artifact are not code signing:
+SmartScreen still warns, because SmartScreen asks a different question and only
+a certificate authority answers it.</p>
 <p><strong>Windows signing is not planned.</strong> This is a decision, not a backlog item, and
 it is recorded here so nobody waits for it: a certificate that would satisfy
 SmartScreen is a recurring cost the publisher is not willing to carry for a free
@@ -370,7 +415,8 @@ Signing them costs nothing — a GPG key, no certificate authority — but almos
 nothing checks it: <code>dpkg -i</code> does not verify a signature on a standalone <code>.deb</code>,
 and an AppImage&#39;s signature is verified only if you go looking for it. What
 would carry real weight is a signed package repository or a signed
-<code>SHA256SUMS.txt</code>, both of which are free and neither of which is done yet.</p>
+<code>SHA256SUMS.txt</code>. The second is done, from the first release built in the public
+repository; a signed repository is not, and is not planned.</p>
 <p><strong>Why we tell you to check rather than trust.</strong> The macOS build degrades to
 <em>unsigned</em> rather than failing if the signing certificate expires or its secrets
 go missing, and nothing in the build log flags it. A release could therefore
@@ -432,26 +478,45 @@ scale rather than at recoverability, and that is a judgement worth disputing.</p
 <p>This project has been reviewed repeatedly, and the findings are published rather
 than filed away:</p>
 <ul>
-<li><strong>Current residual risks</strong> — Technical specification §
+<li><p><strong>Current residual risks</strong> — Technical specification §
 7, and the <em>Known limitations</em>
-section of each release&#39;s notes</li>
-<li><strong>Risks accepted rather than fixed</strong>, each with what it would take and why the
+section of each release&#39;s notes</p>
+</li>
+<li><p><strong>Risks accepted rather than fixed</strong>, each with what it would take and why the
 trade was made — Technical specification §
-7.2</li>
-<li><strong>Security notes</strong> —
+7.2</p>
+</li>
+<li><p><strong>Security notes</strong> —
 Terminal access (<code>claude-glm</code>), 2026-08-30:
 the launcher placed the Scaleway key in Claude Code&#39;s environment, adopted any
 listener on <code>127.0.0.1:4000</code> as its proxy, and published a stop command that
-could kill an unrelated process. Found by external review before the feature
-had reached anyone, so it is recorded as a note rather than issued as an
-advisory — the reasoning is in the note. Rewritten and re-enabled on all three
-platforms; an installation made before that is not repaired by updating</li>
-<li><strong>Accessibility defects</strong>, stated rather than glossed —
-<a href="/accessibility">Accessibility statement</a></li>
-<li><strong>Security and robustness reviews</strong> (July 2026) and the mitigation plan that
+could kill an unrelated process. Present in <strong>1.2.0 through 1.6.0</strong> — every
+release that shipped the integration — and disclosed on 2026-09-01 as
+<a href="https://github.com/jacobla1/sovatela/security/advisories/GHSA-jpv9-3mvc-5v5c">GHSA-jpv9-3mvc-5v5c</a>,
+CVSS 6.3. <strong>Who was affected is unknown and cannot be established</strong>: the app
+has no telemetry, so there is no way to find out who installed the feature.
+There is no known exploitation, which is not the same as none. Rewritten and
+re-enabled on all three platforms; an installation made before that is not
+repaired by updating, and a key that was exposed stays exposed until it is
+rotated.</p>
+<p><em>This entry is corrected.</em> It previously said the defects were found &quot;before
+the feature had reached anyone&quot;, and that the finding was &quot;recorded as a note
+rather than issued as an advisory&quot;. Both were wrong. The first is the
+download-count argument the security note itself withdrew — download figures
+cannot distinguish a person from a scanner, cannot show who went on to install
+the integration, and cannot support a negative claim about exposure. The
+second was overtaken by events: an advisory was published, and this page went
+on saying one had not been. A page whose subject is candour cannot be the last
+place still making a withdrawn claim about who was exposed</p>
+</li>
+<li><p><strong>Accessibility defects</strong>, stated rather than glossed —
+<a href="/accessibility">Accessibility statement</a></p>
+</li>
+<li><p><strong>Security and robustness reviews</strong> (July 2026) and the mitigation plan that
 followed are held internally. They record findings against pre-release
 versions, including some not yet remediated; we&#39;d rather share them on request
-than publish a map of open issues. Ask at <code>info@anaubi.com</code>.</li>
+than publish a map of open issues. Ask at <code>info@anaubi.com</code>.</p>
+</li>
 </ul>
 <h2>Verifying the claims</h2>
 <p>Every statement above is a claim about code, and none of it should be taken on
