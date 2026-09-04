@@ -252,9 +252,24 @@ the interface, unlike an artifact, can call privileged commands. It allowed
 inline script until 1.5.3, and the automatic nonce injection that would have
 made that unnecessary was switched off; no inline script was ever needed, as
 the built page is a module tag and a stylesheet link. Inline <em>style</em> is still
-allowed, because two components size elements with a style attribute, and an
-injected style is a far smaller problem than injected code. <code>eval</code> is refused
-in both the shipped and the development policy.</p>
+allowed in the policy, because two of the app&#39;s own components size elements
+with a style attribute. <code>eval</code> is refused in both the shipped and the
+development policy.</p>
+<p><strong>That last allowance used to be defended here with a sentence that was
+wrong.</strong> This page said &quot;an injected style is a far smaller problem than
+injected code&quot;, and left it there. Smaller is not the same as small: because
+the policy permits inline style, a reply carrying
+<code>style=&quot;position:fixed;inset:0;z-index:999999&quot;</code> covered the entire window. No
+script is involved, so nothing was executing and nothing escaped a sandbox —
+what it produced was a convincing fake of an application whose whole claim is
+that you can trust what it shows you. A plausible &quot;your key has expired&quot; and a
+link, and the phishing page is the app. A poisoned search result or an
+uploaded document is enough to ask the model for that markup.</p>
+<p>Rendered replies are now filtered against an allowlist of tags and attributes
+rather than a list of forbidden ones: <code>style</code>, <code>class</code> and <code>id</code> cannot survive
+sanitisation, so the CSP&#39;s permission for inline style no longer has anything
+in an assistant reply to apply to. The review&#39;s exact payload is a test
+(<code>tests/text.test.js</code>), along with the spellings that evade a naive filter.</p>
 <h3>A custom image endpoint you host yourself</h3>
 <p>The image endpoint is the one address in the app you can point at your own
 machine — the field suggests <code>http://localhost:4000/…</code>, and self-hosting on a
