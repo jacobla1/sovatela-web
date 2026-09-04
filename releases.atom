@@ -8,6 +8,13 @@
   <author><name>Jacob Bergmann Larsen</name></author>
   <subtitle>New versions of Sovatela, including security releases. Nothing is collected from subscribing — this is a static file your reader fetches.</subtitle>
   <entry>
+    <title>Sovatela 1.7.2</title>
+    <id>https://github.com/jacobla1/sovatela/releases/tag/v1.7.2</id>
+    <link rel="alternate" href="https://github.com/jacobla1/sovatela/releases/tag/v1.7.2"/>
+    <updated>2026-09-04T00:00:00Z</updated>
+    <summary>Sovatela 1.7.2 was released on 2026-09-04. Release notes and checksums are on the release page.</summary>
+  </entry>
+  <entry>
     <title>Sovatela 1.7.1</title>
     <id>https://github.com/jacobla1/sovatela/releases/tag/v1.7.1</id>
     <link rel="alternate" href="https://github.com/jacobla1/sovatela/releases/tag/v1.7.1"/>
