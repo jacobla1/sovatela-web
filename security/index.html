@@ -158,12 +158,12 @@ no remote asset loaded into the interface.</p>
 <tr>
 <td><em>Settings → About →</em> <strong>Check for updates</strong></td>
 <td><code>https://sovatela.eu/version.json</code></td>
-<td>Nothing. No query string, nothing about you or your machine. Only on a press</td>
+<td>No query string, no account, and nothing this app knows about you or your machine — not even which version you are on. The request itself is unavoidable: that page is hosted by GitHub, which sees your IP address the way any website does. Only on a press</td>
 </tr>
 <tr>
 <td><strong>At launch, only if you switch it on</strong></td>
 <td><code>https://sovatela.eu/version.json</code></td>
-<td>The same: nothing. <em>Settings → About → Check for a new version when Sovatela starts</em> is off by default; enabling it makes this the second automatic call, and it is the only setting that adds one</td>
+<td>The same, and the same caveat. <em>Settings → About → Check for a new version when Sovatela starts</em> is off by default; enabling it makes this the second automatic call, and it is the only setting that adds one</td>
 </tr>
 <tr>
 <td><em>Settings → Usage →</em> <strong>Check for updated prices</strong></td>
@@ -183,6 +183,12 @@ constrains it: private and loopback addresses are refused, the resolved address
 is pinned so a name cannot be re-pointed mid-request, and every redirect is
 re-checked (<code>vetted_ip</code> in <code>src-tauri/src/lib.rs</code>). What is <em>not</em> constrained
 is which public site it reads. Turning web search off removes this entirely.</p>
+<p><strong>A third correction, on the same table.</strong> Both update rows said the check
+sends &quot;nothing&quot;. No <em>application</em> data is sent — no identifier, no version, no
+query string — but a request is a request, and the page is hosted by GitHub
+Pages, which sees an IP address like any host. This page has said elsewhere,
+for months, that GitHub Pages sees a visitor&#39;s IP; the rows above now say it
+too rather than leaving the stronger word standing.</p>
 <p><strong>This table is corrected, twice over.</strong> Through 1.4.0 this section said the app
 contacted nothing but the providers you configure — untrue since the price
 fetch was added. Through 1.5.1 it then said nothing is contacted when the app
