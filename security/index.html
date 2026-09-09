@@ -200,6 +200,11 @@ it was found the first time anyone ran it.</p>
 <p>A link in a reply, or a button in Settings, is opened by asking Rust, which
 accepts <strong><code>https</code> and <code>http</code> only</strong> and refuses a URL carrying a username or
 password. The renderer does not hold the opener permission.</p>
+<p>It does not hold the image or file-dialog permissions either. From 1.8.4 its
+grant is nine permissions named one by one rather than the <code>core:default</code> and
+<code>dialog:default</code> bundles. Those two allowed opening a file by path and reading
+back its pixels — a reach no review of this application&#39;s own commands would
+have found, because it belongs to none of them.</p>
 <p>Through 1.6.1 it did. Anything running in the renderer could hand the operating
 system a URL of any scheme, and a URL is not only an address: <code>file://</code> opens a
 local file in whatever is registered for it, and a custom scheme starts whatever
