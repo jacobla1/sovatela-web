@@ -128,8 +128,10 @@ not travel back,</li>
 credential store on first launch and removed.</p>
 <h3>Network</h3>
 <p>All HTTPS calls are made from the Rust backend using <code>reqwest</code>, not from the
-webview. This keeps keys out of the renderer process and avoids relying on
-browser-side origin controls. There is no telemetry endpoint, no analytics, and
+webview. No stored key is returned to the renderer, and no provider request is
+made from it — the one moment a key is in the interface at all is while you are
+typing it into the field, on its way to the credential store. This avoids
+relying on browser-side origin controls. There is no telemetry endpoint, no analytics, and
 no remote asset loaded into the interface.</p>
 <p>Everything the app can contact, and when:</p>
 <table>
@@ -376,12 +378,17 @@ every piece, including the tools the installer brought with it.</p>
 <code>SHA256SUMS.txt</code> attached to each release.</p>
 <p><strong>What a checksum here does and does not prove.</strong> It proves the file you have
 is the file that was published — a truncated download, a proxy that mangled
-bytes, a mirror serving something else. It does not prove <em>who</em> published it:
-<code>SHA256SUMS.txt</code> is not signed, so anyone who could replace an installer on the
-release could replace the list beside it. Comparing against the download page
-instead is a slightly better check, because the page and the release are served
-by different systems and both would have to be changed — but the same account
-controls both, so it is not independent either.</p>
+bytes, a mirror serving something else.</p>
+<p>On its own it does not prove <em>who</em> published it: anyone who could replace an
+installer on the release could replace the list beside it. That is what the
+minisign signature is for, and it is why <code>SHA256SUMS.txt.minisig</code> is published
+with it — verifying the list against the key below establishes the publisher,
+not merely that the bytes match.</p>
+<p>This paragraph said flatly that <code>SHA256SUMS.txt</code> &quot;is not signed&quot;, and went on
+saying it after the signature had been published for several releases, while the
+same page documented how to verify it a few paragraphs later. An external review
+found the two halves contradicting each other in the live page. It was true when
+written and nobody came back to it.</p>
 <p>On macOS this does not matter much, because notarization is the real check:
 Apple signs the ticket, and <code>spctl</code> verifies it against Apple rather than
 against us.</p>
