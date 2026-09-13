@@ -582,8 +582,19 @@ and network calls, <code>src/lib/Artifact.svelte</code> with the CSP in
 <code>src-tauri/tauri.conf.json</code> for the artifact sandbox, and
 <code>src-tauri/src/workspace.rs</code> for filesystem confinement.</p>
 <p>The strongest check needs no source at all: <strong>capture the app&#39;s network
-traffic</strong> and confirm it reaches only the providers you configured. That is the
-one claim on this page that matters most, and it is verifiable from outside.</p>
+traffic</strong> and confirm it matches the table above — which is more than the
+providers you configured, and saying otherwise was wrong here until 1.8.9.</p>
+<p>Expect the Scaleway key check at launch, the providers while you use them, the
+delivery address an image provider hands back, <code>version.json</code> if you asked for
+an update check or switched on the launch one, the price file if you asked for
+prices, and — with web search on — the public pages the model chose to read.
+Those last addresses are the model&#39;s choice and can be anywhere in the world.
+Private and loopback addresses are refused, which guards your own network; it is
+not a geographic limit, and nothing in this app confines page reading to Europe.</p>
+<p>What should <em>not</em> appear is anything else: no telemetry, no analytics, no
+account, no identifier — and, with the launch check off, nothing at all while
+the app sits idle. That is the claim on this page that matters most, and it is
+the one you can settle from outside without trusting a word of the rest.</p>
 
     <footer>
       <p>
