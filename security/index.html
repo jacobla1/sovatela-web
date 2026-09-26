@@ -267,6 +267,83 @@ trigger it, including images, PDF forms and inline images. The check is
 conservative: logos, annotations and other graphics can trigger it too.
 Pure scans still use the existing local OCR path on macOS and Windows; Linux
 has no OCR engine. OCR can misread or omit words and lines within a page.</p>
+<h3>Document helper confinement — macOS, from 1.10.0</h3>
+<p>The extraction helper installs a Seatbelt policy in the macOS extraction helper
+before reading document bytes. It denies filesystem access by default, allowing
+specific OS framework, font and language-data directories, the helper executable,
+read-only access to the application&#39;s own bundle when it runs from one, and two
+private temporary/cache directories. Direct network connections and
+process creation/execution are denied. App-launched helpers receive a cleared
+environment; inherited file descriptors other than stdin, stdout and stderr are
+closed before parsing. If confinement cannot be installed, extraction is refused.</p>
+<p>Vision needs access to the named Apple Neural Engine and Metal compiler services,
+plus selected GPU/accelerator interfaces. Those services run outside the helper&#39;s
+policy. Framework initialization before <code>main</code> and any pre-existing Mach ports
+are also outside the installation boundary. This reduces the helper&#39;s privileges;
+it is not evidence that compromised native code has no route out.</p>
+<p>The parent removes private scratch after the child exits or is killed. Cleanup is
+best effort; a parent crash or a directly invoked QA helper that aborts can leave
+scratch behind. Scratch has no aggregate disk quota. Existing Rust allocation,
+page, pixel, output and time limits remain; native framework allocations and
+work performed by permitted OS services are not bounded by the Rust allocator.</p>
+<p>It is in 1.10.0; 1.9.0 and earlier do not confine the helper. It is validated on
+Apple-silicon hardware and on GitHub&#39;s hosted macOS runner, which is a virtual
+machine; Intel macOS and a clean machine remain unchecked. The
+confinement QA record records the
+tested boundary and remaining work.</p>
+<h3>Document helper confinement — Windows, from 1.10.0</h3>
+<p>The extraction helper runs inside an AppContainer with no capabilities, from
+1.10.0 (the <code>windows-confinement</code> build feature, on by default). <strong>1.9.0 and
+earlier do not confine the helper on Windows.</strong></p>
+<p>The parent creates the helper — an AppContainer is a property
+of the token a process is created with, so the child&#39;s loader already runs under
+it — suspended, places it in a kill-on-close job that nothing can leave, and only
+then lets it run. The helper inherits only the three handles it is given, and
+receives two environment variables rather than the parent&#39;s environment. Its
+working directory is a per-extraction scratch directory: its access list, merged
+into the existing one, lets the container read, write and delete there, and
+traverse the directory itself, but grants no execute on what is written into it.
+If the container cannot be entered, extraction is refused; there is no
+unconfined retry.</p>
+<p>Measured on two GitHub-hosted runner images, with the shipping feature set in a
+debug build:</p>
+<ul>
+<li>PDFs, including fifteen mixed-document fixtures and ten consecutive runs, and
+minimal DOCX, ODT, PPTX and XLSX files, read inside the container with output
+byte-identical to unconfined. Windows OCR activates inside the container.</li>
+<li>A probe holding a verified AppContainer token is refused reads, overwrites and
+creates outside its scratch with <code>ERROR_ACCESS_DENIED</code>, and cannot reach a
+loopback listener that an unconfined control reaches before and after it.</li>
+<li>An inheritable parent handle is readable from inside the container without the
+handle whitelist, and unusable with it.</li>
+<li>A descendant process holding a file open in scratch is killed with the helper,
+and the scratch directory is removed; it is removed as well when preparing it
+fails.</li>
+<li>A program the helper writes into scratch cannot be run from inside the
+container, while a system program can.</li>
+<li>A forced confinement failure refuses the document and returns no text.</li>
+</ul>
+<p>It was enabled after four rounds of independent review, the last of which found
+no remaining security blocker. Its limits:</p>
+<ul>
+<li>It is a regular AppContainer, not a less-privileged one (LPAC): it keeps
+selected system files, registry keys and COM objects. The denials above are
+demonstrated examples, not an exhaustive proof of what it cannot reach.</li>
+<li>The container&#39;s identity and profile are the same for every document, and its
+temporary directory resolves inside that profile. <strong>Confinement protects the
+rest of the machine from the helper; it does not isolate one document from the
+next.</strong></li>
+<li>Descendants are terminated as a unit by the job, but cleanup is bounded and
+best-effort: an unusually slow terminating process may leave scratch behind.</li>
+<li>The handle-whitelist evidence covers one representative inheritable handle.</li>
+<li>Office coverage uses minimal generated files, and OCR coverage a synthetic
+scan.</li>
+<li>None of this has yet been checked on an installed release build.</li>
+</ul>
+<p>The Windows confinement QA record
+has the measurements, the review history and the residual risks in full.</p>
+<p>Linux retains the existing process/resource limits and has no OS privilege
+confinement.</p>
 <h3>Generated code</h3>
 <p>Artifacts — charts, diagrams, small applications the model writes — render in an
 <code>&lt;iframe sandbox=&quot;allow-scripts&quot;&gt;</code> without <code>allow-same-origin</code>, under a strict
