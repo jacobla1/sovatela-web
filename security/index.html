@@ -185,8 +185,11 @@ can decide to open a page it found, and that address is its choice. Injected
 text on a search result is therefore an instruction the model may act on. What
 constrains it: private and loopback addresses are refused, the resolved address
 is pinned so a name cannot be re-pointed mid-request, and every redirect is
-re-checked (<code>vetted_ip</code> in <code>src-tauri/src/lib.rs</code>). What is <em>not</em> constrained
-is which public site it reads. Turning web search off removes this entirely.</p>
+re-checked (<code>vetted_ip</code> in <code>src-tauri/src/lib.rs</code>). A few IPv6 forms are not
+yet recognised as private: the deprecated site-local range <code>fec0::/10</code>, and the
+6to4 (<code>2002::/16</code>) and Teredo (<code>2001::/32</code>) forms that carry an IPv4 address
+inside them. What is <em>not</em> constrained is which public site it reads. Turning
+web search off removes this entirely.</p>
 <p><strong>A third correction, on the same table.</strong> Both update rows said the check
 sends &quot;nothing&quot;. No <em>application</em> data is sent — no identifier, no version, no
 query string — but a request is a request, and the page is hosted by GitHub
@@ -361,8 +364,17 @@ confinement.</p>
 <h3>Generated code</h3>
 <p>Artifacts — charts, diagrams, small applications the model writes — render in an
 <code>&lt;iframe sandbox=&quot;allow-scripts&quot;&gt;</code> without <code>allow-same-origin</code>, under a strict
-Content-Security-Policy. Generated code therefore cannot reach the Tauri IPC
-bridge, the credential store, your filesystem, or the network. The effective
+Content-Security-Policy. That is designed to keep generated code away from the
+Tauri IPC bridge, the credential store, your filesystem and the network.</p>
+<p><strong>How far that has been checked in a running app:</strong> once, for 1.6.0 on macOS,
+where an artifact&#39;s attempts at <code>fetch</code>, XHR, <code>window.parent</code>, <code>localStorage</code>
+and <code>__TAURI__.invoke</code> were all refused. It has not been repeated since, not
+on Windows, and not through Tauri&#39;s lower-level <code>__TAURI_INTERNALS__</code> object.
+The automated tests check the frame&#39;s attributes and policy, not what a
+script inside it can reach. The check is on the list of things to do in a
+fresh account before each release is announced, and has not been done for any
+release since 1.6.0. Until it has, this paragraph describes the design rather
+than a measured result. The effective
 policy is in <code>src-tauri/tauri.conf.json</code> and summarised in the
 technical specification; the design notes
 recording which bypasses were tested are held internally and available on
@@ -387,11 +399,23 @@ what it produced was a convincing fake of an application whose whole claim is
 that you can trust what it shows you. A plausible &quot;your key has expired&quot; and a
 link, and the phishing page is the app. A poisoned search result or an
 uploaded document is enough to ask the model for that markup.</p>
-<p>Rendered replies are now filtered against an allowlist of tags and attributes
-rather than a list of forbidden ones: <code>style</code>, <code>class</code> and <code>id</code> cannot survive
-sanitisation, so the CSP&#39;s permission for inline style no longer has anything
-in an assistant reply to apply to. The review&#39;s exact payload is a test
+<p>Rendered replies are filtered so that <code>style</code>, <code>class</code> and <code>id</code> cannot survive
+sanitisation, so the CSP&#39;s permission for inline style has nothing in an
+assistant reply to apply to. The review&#39;s exact payload is a test
 (<code>tests/text.test.js</code>), along with the spellings that evade a naive filter.</p>
+<p><strong>This paragraph is corrected.</strong> It said replies were filtered against an
+allowlist of tags and attributes rather than a list of forbidden ones. The code
+names an allowlist, but it also switches on DOMPurify&#39;s HTML profile, and the
+profile replaces the allowlist, so only the forbidden list takes effect. Other
+HTML therefore survives, among it <code>&lt;dialog open&gt;</code>, <code>popover</code>, <code>&lt;details&gt;</code>,
+<code>&lt;font&gt;</code>, <code>&lt;marquee&gt;</code>, autoplaying <code>&lt;video&gt;</code>, <code>tabindex</code>, <code>download</code> and <code>ftp:</code>
+links. Script, event handlers, <code>javascript:</code> links and forms are still
+removed, and the window&#39;s policy still blocks inline script and images or
+media from other hosts, so nothing executes and nothing is fetched. What is
+left is a smaller form of the spoofing described above: a reply can place a
+non-modal dialog over the conversation, with large text and a link. Found by
+the 1.10.2 launch review, and not fixed yet; the fix is to make the allowlist
+the only list in force.</p>
 <h3>A custom image endpoint you host yourself</h3>
 <p>The image endpoint is the one address in the app you can point at your own
 machine — the field suggests <code>http://localhost:4000/…</code>, and self-hosting on a
@@ -433,6 +457,14 @@ what the claim should have had from the start.</p>
 <h3>Workspace</h3>
 <p>When you grant a folder, writes are confined to it, the model asks before every
 write, and it never deletes. Path traversal out of the granted root is blocked.</p>
+<p>The question names the file and its size, not its contents. Any path inside
+the folder is accepted, including hidden folders such as <code>.git</code> or <code>.vscode</code>,
+and names containing characters that change how text is displayed, such as a
+right-to-left override, are not refused. A new file is created without
+permission to run, so a new git hook would not run; but replacing an existing
+file keeps its permissions, so overwriting a hook or script that already runs
+leaves it able to run. Read the name before approving a write into a hidden
+folder, and especially before approving a replacement there.</p>
 <h3>Third-party code</h3>
 <p>Dependencies are pinned via lockfiles (<code>package-lock.json</code>, <code>Cargo.lock</code>). All
 bundled components and their licences are enumerated in
@@ -522,10 +554,15 @@ if it has a <code>SHA256SUMS.txt.minisig</code> attached.</p>
 </tr>
 <tr>
 <td>Attestation</td>
-<td>this commit and workflow produced the file</td>
-<td><code>gh attestation verify &lt;file&gt; --repo jacobla1/sovatela</code></td>
+<td>the release workflow, at this release&#39;s tag, produced the file</td>
+<td><code>gh attestation verify &lt;file&gt; --repo jacobla1/sovatela --signer-workflow jacobla1/sovatela/.github/workflows/release.yml --source-ref refs/tags/vX.Y.Z</code></td>
 </tr>
 </tbody></table>
+<p><em>The attestation command is corrected.</em> It was given with <code>--repo</code> alone,
+which accepts an attestation from any workflow in the repository, built from
+any branch or tag. That shows this repository built the file, not that the
+release workflow built it from the tag. <code>scripts/verify-release.sh</code> still
+makes the looser check.</p>
 <p>The signature closes the gap named above: the list is no longer just a file
 sitting beside the installers it vouches for, because replacing it now requires
 the signing key rather than write access to the release. The public key is
@@ -564,14 +601,16 @@ and an AppImage&#39;s signature is verified only if you go looking for it. What
 would carry real weight is a signed package repository or a signed
 <code>SHA256SUMS.txt</code>. The second is done, from the first release built in the public
 repository; a signed repository is not, and is not planned.</p>
-<p><strong>Why we tell you to check rather than trust.</strong> The macOS build degrades to
-<em>unsigned</em> rather than failing if the signing certificate expires or its secrets
-go missing, and nothing in the build log flags it. A release could therefore
-ship unsigned while this page still claimed otherwise. Running <code>spctl</code> yourself
-takes seconds and doesn&#39;t depend on us being right. We run it — plus
-<code>xcrun stapler validate</code>, which catches a notarization ticket that was never
-stapled to the app and would fail on a machine that is offline — against the
-published artifact before every release.</p>
+<p><strong>Why we tell you to check rather than trust.</strong> The tool that builds the macOS
+app degrades to <em>unsigned</em> rather than failing if the signing certificate
+expires or its secrets go missing, and its own log does not flag it. Since
+1.7.1 the release workflow therefore checks the draft&#39;s <code>.dmg</code> itself: signed,
+notarized, the ticket stapled (<code>xcrun stapler validate</code>, which catches a ticket
+that would fail on a machine that is offline), and the version it claims. If
+any of that fails, the release stops before the checksum list is signed
+(<code>verify-macos-signature</code> in <code>.github/workflows/release.yml</code>). That is our
+check, though. Running <code>spctl</code> yourself takes seconds and doesn&#39;t depend on us
+being right.</p>
 <h2>What this does not protect against</h2>
 <p>Stated plainly, because a security page that only lists strengths is not useful:</p>
 <ul>
@@ -588,6 +627,22 @@ their jurisdiction.</p>
 </li>
 <li><p><strong>Model output.</strong> Generated text and code are unverified. Artifacts are
 sandboxed against the <em>app</em>, not audited for correctness.</p>
+</li>
+<li><p><strong>Everything in a template someone else gives you.</strong> Sovatela refuses a
+template whose fields fetch, or that links to something marked as outside
+the file. Other parts it copies are not all examined. A template can make
+every document built from it ask to update fields on opening, open
+read-only, or carry mail-merge settings, and an internal link can name a web
+address. Word fetched nothing for the two such cases tested; the rest were
+not opened in Word. A template you made yourself is not affected.</p>
+</li>
+<li><p><strong>A compromised dependency at build time.</strong> The macOS release job runs every
+dependency&#39;s build code in the same job that holds the Apple signing
+certificate. A dependency compromised upstream could therefore reach the
+signing identity. The approval before that job does not help, because what
+is approved is the job, not the code inside it. Dependencies are pinned by
+lockfile, actions by commit, and audited weekly, which makes this harder but
+does not remove it.</p>
 </li>
 <li><p><strong>Terminal access (<code>claude-glm</code>).</strong> Optional, off until you install it, under
 Settings → Advanced. It runs Claude Code — an agent that executes commands,
@@ -716,7 +771,21 @@ confirmed Word fetched its address once the recipient let it update the
 fields. An instruction beginning with <code>&quot;&quot;</code> was skipped rather than judged.
 Both are now refused. Present in <strong>1.6.0 through 1.10.2</strong>; the advisory
 <a href="https://github.com/jacobla1/sovatela/security/advisories/GHSA-xj29-h3wq-6h2w">GHSA-xj29-h3wq-6h2w</a>
-is amended to name 1.10.3 as the fixed version.</li>
+was amended on 2026-10-16 to name 1.10.3 as the fixed version.</li>
+<li><strong>The checksum signing key was available to any workflow</strong> in the public
+repository, not only to the approved release job. It is now held only for
+that job, and was replaced when it moved — see <em>Release integrity</em>.</li>
+<li><strong><code>scripts/verify-release.sh</code> preferred a <code>minisign.pub</code> from the download
+folder</strong> over the one in the repository, so a release that carried its own
+key would have verified against it. No release did. It now uses only the
+repository&#39;s key, chosen by version.</li>
+<li><strong>rustls</strong> in <code>Cargo.lock</code> updated to 0.23.46 for RUSTSEC-2026-0346 to<ol start="349">
+<li>As above, it is not compiled into Sovatela, which was not exposed.</li>
+</ol>
+</li>
+<li>Not yet fixed, and stated in the sections above: the sanitiser&#39;s allowlist
+not being in force, unexamined template parts other than fields, and the
+build-time exposure of the Apple signing identity.</li>
 </ul>
 </li>
 <li><p><strong>Accessibility defects</strong>, stated rather than glossed —
