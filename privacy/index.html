@@ -91,7 +91,7 @@
   <div class="wrap">
     <a class="back" href="/">← Sovatela</a>
     <h1>Privacy policy</h1>
-<p>Last updated: 2026-09-05 · Applies to: Sovatela v1.10.4</p>
+<p>Last updated: 2026-10-17 · Applies to: Sovatela v1.10.4</p>
 <blockquote>
 <p><strong>How this was written, since you are entitled to know.</strong> By the publisher,
 not by a lawyer. It is written to be accurate about what the software does,
@@ -116,11 +116,19 @@ or enforcement authority that asks for it.</p>
 telemetry, no analytics, and no crash reporting. The publisher receives no data
 from the application — not usage statistics, not error reports, not your
 messages.</p>
-<p>Your data goes to two places: <strong>your own device</strong>, and <strong>the AI providers you
-choose to connect</strong>, using <strong>your own accounts</strong> with them.</p>
+<p>Your data goes to <strong>your own device</strong> and to <strong>the AI providers you choose to
+connect</strong>, using <strong>your own accounts</strong> with them. A few other destinations
+receive requests too, each listed in section 4 with what it receives: the
+version and price files, when you ask; the web pages the model reads, while
+web search is on; the address your image provider hands back for collecting
+a picture it made; and your cloud service, when you agree to download a file
+of yours from it. <em>This paragraph is corrected:</em> it said &quot;two places&quot;, which
+left those out (independent review of 1.10.4).</p>
 <h2>3. What the application stores, and where</h2>
 <p>All on your device, in your operating system&#39;s application-data folder or a
-folder you nominate:</p>
+folder you nominate. If the folder you nominate is one a cloud service syncs,
+such as iCloud Drive, that service also holds what is in it, under its own
+terms:</p>
 <table>
 <thead>
 <tr>
@@ -164,12 +172,26 @@ to say &quot;nothing is written&quot;, which was broader than the truth.</p>
 <p>Full instructions: Uninstall and data deletion.</p>
 <h2>4. What is sent, and to whom</h2>
 <p>The application transmits data using your own credentials, to the providers you
-configured. Three destinations are not providers, and are listed here rather
-than left to be discovered: <code>sovatela.eu</code> when you press <em>Check for updates</em>,
-<code>raw.githubusercontent.com</code> when you press <em>Check for updated prices</em>, and —
-while web search is on — whichever public page the model decides to read. See
-<a href="/security">Security</a> for what each one sends, which in the first two
-cases is nothing about you:</p>
+configured. Five destinations are not providers, and are listed here rather
+than left to be discovered:</p>
+<ul>
+<li><code>sovatela.eu</code>, when you press <em>Check for updates</em> (or at launch, if you
+switch that on);</li>
+<li><code>raw.githubusercontent.com</code>, when you press <em>Check for updated prices</em>;</li>
+<li>while web search is on, whichever public page the model decides to read;</li>
+<li>after an image is generated, the delivery address your image provider
+returns for it, which need not be the address you configured; it receives
+the request for your picture and nothing else;</li>
+<li>your cloud service (iCloud Drive, or another service through macOS), only
+when you choose a file whose contents are in the cloud and agree to
+download it. macOS does the fetching; nothing from your conversations is
+sent.</li>
+</ul>
+<p><em>This list is corrected:</em> it named three and missed the last two
+(independent review of 1.10.4). See <a href="/security">Security</a> for what each
+one sends. Every request, to any destination, also carries what any request
+does: your IP address and the time. Where this page says a request sends
+&quot;nothing about you&quot;, it means nothing beyond that:</p>
 <table>
 <thead>
 <tr>
@@ -181,7 +203,7 @@ cases is nothing about you:</p>
 <tbody><tr>
 <td>Scaleway (France)</td>
 <td>Your Scaleway key, and nothing else — <code>GET /models</code>, asking whether the key still works</td>
-<td><strong>Automatically, once, when the app starts.</strong> This is the connection dot in the corner</td>
+<td><strong>Automatically, when the app starts</strong>, and again when the chat view opens anew (after you leave Settings, for example). This is the connection dot in the corner</td>
 </tr>
 <tr>
 <td>Scaleway (France)</td>
@@ -195,7 +217,7 @@ cases is nothing about you:</p>
 </tr>
 <tr>
 <td>Your image provider (OVHcloud / Black Forest Labs / your endpoint)</td>
-<td>Image prompts</td>
+<td>Image prompts, and any reference images you attach to the request</td>
 <td>Only when you generate an image</td>
 </tr>
 </tbody></table>
@@ -211,9 +233,10 @@ feature is off until you install it.</p>
 <p>Each provider processes that data under <strong>its own terms and privacy policy</strong>,
 which you accept when you create an account with them. Links to each provider&#39;s
 policy are shown in the app where you enable that provider.</p>
-<p>The app makes no other network connections. <strong>One is automatic by default</strong>, and
-it is the first row of the table: at startup the app asks your Scaleway endpoint
-whether your key still works, which is what the coloured dot beside the model
+<p>The app makes no network connections beyond those listed in this section.
+<strong>One is automatic by default</strong>, and it is the first row of the table: when the
+chat view opens, at startup and after leaving Settings, the app asks your
+Scaleway endpoint whether your key still works, which is what the coloured dot beside the model
 name is reporting. It sends your key and nothing else — no message, nothing about
 you or your machine. Turning off the key removes it; there is no setting that
 suppresses it while a key is stored.</p>
@@ -239,9 +262,10 @@ about you. Instead the subscription is at your end — a
 GitHub&#39;s <em>Watch → Releases only</em>, which GitHub holds and the publisher never
 sees. Neither involves telling anyone here who you are, and the application
 itself does not fetch the feed; your reader does.</p>
-<p>Everything else waits for you. The three non-provider destinations above are
-reached by a button you press, with the one exception described just above and
-repeated here — because a summary that quietly drops it is how a policy comes to
+<p>Everything else waits for you. The version and price files are reached by a
+button you press, the pages and the image delivery address by something you
+asked for (a search, an image), and your cloud service only when you agree to
+a download, with the one exception described just above and repeated here — because a summary that quietly drops it is how a policy comes to
 contradict itself: <em>Check for a new version when Sovatela starts</em> is off by
 default, and switching it on moves the version check from a press to the moment
 the app opens. Nothing is reported about you or your machine, no remote resource

@@ -489,8 +489,14 @@ with such characters, a write into a hidden folder (a dotfile such as
 <code>.gitignore</code> in an ordinary folder is still allowed), and replacing a file
 that can be run. A new file is created without permission to run, as before.</p>
 <h3>Third-party code</h3>
-<p>Dependencies are pinned via lockfiles (<code>package-lock.json</code>, <code>Cargo.lock</code>). All
-bundled components and their licences are enumerated in
+<p>Dependencies are pinned via lockfiles (<code>package-lock.json</code>, <code>Cargo.lock</code>), and
+<code>cargo audit</code> runs on every change and weekly. <strong>One exception is made, and it
+is the only one:</strong> three advisories published on 2026-10-09 and 10 against the
+<code>zip</code> crate (RUSTSEC-2026-0367, -0368, -0369) concern unpacking an archive onto
+disk, which Sovatela never does; it reads documents in memory and writes them
+with <code>zip</code>&#39;s writer, and a test fails if that changes. The fixed <code>zip</code> 9 was
+days old and seven major versions on; the upgrade is due once it has settled.
+All bundled components and their licences are enumerated in
 <code>THIRD-PARTY-LICENSES.md</code>.</p>
 <p><strong>Terminal access is the exception, and it is opt-in.</strong> Setting up
 <code>claude-glm</code> under <em>Settings → Advanced</em> does something the app otherwise never
@@ -854,6 +860,23 @@ the page reader&#39;s private-address check and an overall time limit (see
 <em>Network</em>); and a link is now opened exactly as it was checked, since the
 address parser and the system&#39;s opener read tabs, newlines and
 backslashes differently.</li>
+</ul>
+</li>
+<li><p><strong>Found by an independent review of 1.10.4 and fixed after it</strong>, in the
+next release:</p>
+<ul>
+<li><strong>An imported chat could make the window do unbounded work.</strong> The import
+check did not look at a reply&#39;s research steps, and the window drew
+whatever was there: a 100-byte file claiming a billion steps asked for a
+billion rows when the chat was opened. Low: it needs the user to import a
+file someone sent them, and nothing is read or sent. The importer now
+refuses steps that are not a short list of short lines, and the window
+draws only a real, capped list.</li>
+<li><strong>Four history reads did not check for cloud placeholders</strong> (see
+<em>Workspace</em> and the CHANGELOG): saving, moving a history folder, deciding
+which files are ours, and deleting all data. A history folder in iCloud
+Drive with evicted files could leave saving waiting; moving or deleting it
+now refuses before changing anything and names the files to download.</li>
 </ul>
 </li>
 <li><p><strong>Accessibility defects</strong>, stated rather than glossed —
