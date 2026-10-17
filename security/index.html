@@ -119,9 +119,11 @@ service name <code>com.anaubi.sovatela</code>. They are:</p>
 <li>never written to a configuration file,</li>
 <li>never returned to the user interface after saving — <em>Settings</em> shows the last
 five characters and nothing more, and no command hands a stored key back,</li>
-<li>read and used only in the Rust backend. A key you type necessarily passes
-through the interface once, on its way to being stored; after that it does
-not travel back,</li>
+<li>read and used, by the app itself, only in the Rust backend. A key you type
+necessarily passes through the interface once, on its way to being stored;
+after that it does not travel back. The optional terminal integration is the
+exception: its launcher and local proxy use your Scaleway key too, as
+<em>Terminal access</em> below describes,</li>
 <li>sent only to the provider they belong to. <strong>Until 1.10.1 this did not fully
 hold for a Black Forest Labs key</strong>, which could follow a redirect from BFL&#39;s
 endpoint to another host — see the security history below.</li>
@@ -145,9 +147,9 @@ no remote asset loaded into the interface.</p>
 </tr>
 </thead>
 <tbody><tr>
-<td><strong>At launch, automatically</strong></td>
+<td><strong>Automatically, when the chat view opens</strong> (at launch, and again after leaving Settings)</td>
 <td>Your Scaleway endpoint — <code>GET /models</code></td>
-<td>Your Scaleway key. This is the connection dot in the corner: it asks whether the key still works, and nothing else. It is the only automatic call in the app</td>
+<td>Your Scaleway key. This is the connection dot in the corner: it asks whether the key still works, and nothing else. It is the only automatic call by default; the other is the launch version check below, if you switch it on</td>
 </tr>
 <tr>
 <td>While you use it</td>
@@ -862,8 +864,8 @@ address parser and the system&#39;s opener read tabs, newlines and
 backslashes differently.</li>
 </ul>
 </li>
-<li><p><strong>Found by an independent review of 1.10.4 and fixed after it</strong>, in the
-next release:</p>
+<li><p><strong>Found by an independent review of 1.10.4 and fixed in 1.10.6</strong> (the fixes
+were tagged as 1.10.5, which was not published; see the CHANGELOG):</p>
 <ul>
 <li><strong>An imported chat could make the window do unbounded work.</strong> The import
 check did not look at a reply&#39;s research steps, and the window drew
