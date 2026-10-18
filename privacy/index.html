@@ -91,7 +91,7 @@
   <div class="wrap">
     <a class="back" href="/">← Sovatela</a>
     <h1>Privacy policy</h1>
-<p>Last updated: 2026-10-18 · Applies to: Sovatela v1.10.6</p>
+<p>Last updated: 2026-10-18 · Applies to: Sovatela v1.10.7</p>
 <blockquote>
 <p><strong>How this was written, since you are entitled to know.</strong> By the publisher,
 not by a lawyer. It is written to be accurate about what the software does,
@@ -189,15 +189,17 @@ the request for your picture and nothing else;</li>
 <li>your cloud service (iCloud Drive, or another service through macOS), only
 when you choose a file whose contents are in the cloud and agree to
 download it. macOS does the fetching; nothing from your conversations is
-sent. <em>One exception in 1.10.6:</em> if your history folder is in iCloud Drive,
-searching your chats, or deleting one, also asks macOS for a chat whose
-file is only in the cloud, without asking you first;</li>
-<li>any host named by an artifact you run. An artifact cannot load anything,
-but it can make the app open a connection to a host it names, and look that
-name up through your DNS resolver. That tells the host the artifact ran,
-and your IP address, and the name itself can carry what the artifact holds,
-which can include text from your conversation. Run artifacts only from
-chats you trust.</li>
+sent. (Until 1.10.7, searching your chats or deleting one also asked macOS
+for a chat whose file was only in the cloud, without asking you first; it
+no longer does.)</li>
+<li>on Windows and Linux, any host named by an artifact you run. An artifact
+cannot load anything, but it can make the app open a connection to a host
+it names, and look that name up through your DNS resolver. That tells the
+host the artifact ran, and your IP address, and the name itself can carry
+what the artifact holds, which can include text from your conversation.
+Run artifacts only from chats you trust. On macOS, from 1.10.7, the app
+refuses every network address an artifact names, connections of this kind
+included.</li>
 </ul>
 <p><em>This list is corrected:</em> it named three and missed the image delivery
 address and the cloud service (independent review of 1.10.4), and then
@@ -350,8 +352,9 @@ your behalf, as we have no relationship with your account there.</p>
 <h2>8. Security</h2>
 <p>Keys are stored in the OS credential store, never in files. Generated artifacts
 run sandboxed, with no access to your files or the app, and cannot load
-anything from the network; they can still open a connection to a host they
-name, as § 4 describes. <em>Corrected:</em> this said they had no network access. See
+anything from the network; on Windows and Linux they can still open a
+connection to a host they name, as § 4 describes. <em>Corrected:</em> this said they
+had no network access. See
 <a href="/security"><code>SECURITY.md</code></a>, which documents what the design does <em>not</em>
 protect against as well as what it does.</p>
 <h2>9. Changes</h2>
